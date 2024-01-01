@@ -1,12 +1,11 @@
 import os
 import subprocess
 
-# Configuration 2
-
-REPO_PATH = "/Users/paulodrefahl/Desktop/Projects/TrafficGuard-Ai"  # Replace with the path to your GitHub repository
-COMMIT_MESSAGE = "TrafficGuard 3.7v"  # Set your commit message
-COMMIT_DATE = "2024-01-01T08:00:00"  # Format: YYYY-MM-DDTHH:MM:SS
-BRANCH_NAME = "main"  # Replace with your branch name if different
+# Configuration
+REPO_PATH = "/Users/paulodrefahl/Desktop/Projects/TrafficGuard-Ai"  # GitHub repository path
+COMMIT_MESSAGE = "TrafficGuard 3.7v"  # Commit message
+COMMIT_DATE = "2024-01-01T08:00:00"  # Commit date (YYYY-MM-DDTHH:MM:SS)
+BRANCH_NAME = "main"  # Branch name
 
 def run_command(command, cwd=None):
     """Run a shell command and capture the output."""
@@ -17,23 +16,30 @@ def run_command(command, cwd=None):
     return result.stdout.strip()
 
 def main():
-    # Change to the repository directory
+    # Verify repository path
     if not os.path.exists(REPO_PATH):
         print(f"Error: Repository path '{REPO_PATH}' does not exist.")
         return
     os.chdir(REPO_PATH)
     
+    # Check for changes
+    print("Checking for changes...")
+    status = run_command(["git", "status", "--porcelain"])
+    if not status:
+        print("No changes to commit. Exiting.")
+        return
+    
     # Add changes
     print("Adding changes...")
     run_command(["git", "add", "."])
     
-    # Commit changes with a custom date
+    # Commit changes
     print("Committing changes...")
     run_command([
         "git", "-c", f"user.date={COMMIT_DATE}", "commit", "--date", COMMIT_DATE, "-m", COMMIT_MESSAGE
     ])
     
-    # Push to GitHub
+    # Push changes
     print("Pushing changes to GitHub...")
     run_command(["git", "push", "origin", BRANCH_NAME])
     
