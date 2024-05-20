@@ -4,7 +4,7 @@ import subprocess
 # Configuration
 REPO_PATH = "/Users/paulodrefahl/Desktop/Projects/TrafficGuard-Ai"  # GitHub repository path
 COMMIT_MESSAGE = "TrafficGuard 3.7v"  # Commit message
-COMMIT_DATE = "2024-08-03T08:00:00"  # Commit date (YYYY-MM-DDTHH:MM:SS)
+COMMIT_DATE = "2024-05-20T08:00:00"  # Commit date (YYYY-MM-DDTHH:MM:SS)
 BRANCH_NAME = "main"  # Branch name
 
 def run_command(command, cwd=None):
