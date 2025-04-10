@@ -1,0 +1,43 @@
+# Dependencies
+
+# Frontend dependencies
+/frontend/node_modules/
+
+# Python virtual environment
+venv/
+
+# PnP
+.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Production build outputs
+/build
+/frontend/build
+
+# Miscellaneous system files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# IDE configuration files
+.idea/
+.vscode/
