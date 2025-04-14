@@ -1,10 +1,15 @@
+// FIND LOCATION
+
 import React, { useState } from "react";
 
 function FetchDataWithDB() {
+
     const [apiResponse, setApiResponse] = useState(null);
 
     const fetchData = async () => {
+
         try {
+            
             // Fetch data from Flask API
             const response = await fetch("http://127.0.0.1:5000/api/data");
             const data = await response.json();
@@ -22,12 +27,16 @@ function FetchDataWithDB() {
                 body: JSON.stringify(data),
             });
             console.log("Data sent to the database!");
-        } catch (error) {
+        } 
+        catch (error) {
             console.error("Error fetching or saving data:", error);
         }
+
     };
 
+
     return (
+
         <div>
             <h1>Fetch Data and Store in Database</h1>
             <button onClick={fetchData}>Fetch Data</button>
@@ -36,6 +45,7 @@ function FetchDataWithDB() {
                 <pre>{apiResponse ? JSON.stringify(apiResponse, null, 2) : "No data yet"}</pre>
             </div>
         </div>
+
     );
 }
 
