@@ -15,23 +15,33 @@ import SystemData from './components/systemData';
 function App() {
   return (
     <div>
+
       <Navbar />
       <div className="container mt-4">
+
         <div className="row">
           <div className="col-md-4">
+
             <h3 className="mb-4">🛡️ Network & Device Security</h3>
             <SecurityCard />
             <DevicesAtRisk />
             <h3 className='mt-4 mb-3'>🖳 System Console</h3>
             <ConsoleOutput />
+
           </div>
+
           <div className="col-md-8">
+
             <TrafficMonitoring />
-            <DeviceList /> 
+            <DeviceList />
+
           </div>
+
           <SystemData />
+          
         </div>
       </div>
+
     </div>
   );
 }
