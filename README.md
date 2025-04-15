@@ -146,6 +146,7 @@ TrafficGuard-Ai/
    ```
 
    The frontend will launch in your browser at [http://localhost:3000](http://localhost:3000).
+   If administration errors occur, run the commands in a CLI.
 
 ---
 
