@@ -148,6 +148,32 @@ TrafficGuard-Ai/
    The frontend will launch in your browser at [http://localhost:3000](http://localhost:3000).
    If administration errors occur, run the commands in a CLI.
 
+**FOR MAC USERS (Specifically M1 and beyond chips):**
+The setup is as follows using VisualStudioCode, NodeJS must be installed in order for the npm commands to work.
+make sure in primary directory for project (ls = README.md       backend         frontend        venv)
+
+**Back end init start:**
+python3 -m venv venv
+source venv/bin/activate
+pip install -r backend/requirements.txt
+python3 backend/app.py
+
+
+**Backend 2nd+ start:**
+source venv/bin/activate
+python3 backend/app.py
+
+
+**Frontend start:**
+cd frontend
+npm init (<--- press enter for all prompts)
+npm install --save-dev electron
+npm start
+
+
+**Frontend 2nd+ start:**
+cd frontend 
+npn start
 ---
 
 ## Usage
