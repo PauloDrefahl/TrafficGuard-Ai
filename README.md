@@ -91,89 +91,100 @@ TrafficGuard-Ai/
 
 ---
 
-## Backend Setup & Running
+# Setup Guide
 
-1. **Navigate to Backend Directory:**
+This guide covers setup and running instructions for both Windows and macOS environments.
+
+## Backend
+
+### Windows
+
+1. **Navigate to the backend directory**
    ```bash
    cd backend
    ```
-
-2. **Create Virtual Environment:**
+2. **Create virtual environment**
    ```bash
    python -m venv venv
    ```
-
-3. **Activate Virtual Environment:**
-   - On **Windows:**
-     ```bash
-     venv\Scripts\activate
-     ```
-   - On **Unix/macOS:**
-     ```bash
-     source venv/bin/activate
-     ```
-
-4. **Install Dependencies:**
+3. **Activate the virtual environment**
+   ```bash
+   venv\Scripts\activate
+   ```
+4. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
-
-5. **Run the Flask App:**
+5. **Run the Flask app**
    ```bash
    python app.py
    ```
+   The backend will start on http://127.0.0.1:5000.
 
-   The backend will start on [http://127.0.0.1:5000](http://127.0.0.1:5000). 
-   Debug mode is enabled by default for development.
+#### Subsequent starts
+```bash
+venv\Scripts\activate
+python app.py
+```
 
 ---
 
-## Frontend Setup & Running
+### macOS
 
-1. **Navigate to Frontend Directory:**
+1. **Navigate to the backend directory**
+   ```bash
+   cd backend
+   ```
+2. **Create virtual environment**
+   ```bash
+   python3 -m venv venv
+   ```
+3. **Activate the virtual environment**
+   ```bash
+   source venv/bin/activate
+   ```
+4. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. **Run the Flask app**
+   ```bash
+   python3 app.py
+   ```
+   The backend will start on http://127.0.0.1:5000.
+
+#### Subsequent starts
+```bash
+source venv/bin/activate
+python3 app.py
+```
+
+---
+
+## Frontend
+
+### Windows & macOS
+
+1. **Navigate to the frontend directory**
    ```bash
    cd frontend
    ```
-
-2. **Install Node.js Dependencies:**
+2. **Install dependencies**
    ```bash
    npm install
    ```
-
-3. **Start the React App:**
+3. **Start the React app**
    ```bash
    npm start
    ```
+   The frontend will launch at http://localhost:3000.
 
-   The frontend will launch in your browser at [http://localhost:3000](http://localhost:3000).
-   If administration errors occur, run the commands in a CLI.
-
-**FOR MAC USERS (Specifically M1 and beyond chips):**
-The setup is as follows using VisualStudioCode, NodeJS must be installed in order for the npm commands to work.
-make sure in primary directory for project (ls = README.md       backend         frontend        venv)
-
-**Back end init start:**
-python3 -m venv venv
-source venv/bin/activate
-pip install -r backend/requirements.txt
-python3 backend/app.py
-
-
-**Backend 2nd+ start:**
-source venv/bin/activate
-python3 backend/app.py
-
-
-**Frontend start:**
+#### Subsequent starts
+```bash
 cd frontend
-npm init (<--- press enter for all prompts)
-npm install --save-dev electron
 npm start
+```
 
-
-**Frontend 2nd+ start:**
-cd frontend 
-npn start
 ---
 
 ## Usage
