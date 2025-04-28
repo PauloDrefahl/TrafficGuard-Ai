@@ -1,18 +1,64 @@
-// FIND LOCATION
+// Network Security Status CARD
 
 import React from 'react';
 
 
 const SecurityCard = () => (
 
-  <div className="card mb-2">
-    <div className="card-body">
-      <h5>Current Network Security Overall Status <span className="badge bg-success">Secure</span></h5>
-      <hr/>
+  <div className="card mb-2"
+  
+  style={{
 
-      <h6>Detected Threats: <span className="badge bg-primary me-2"> 0 </span></h6>
-      <div className="d-flex" role="group" aria-label="Detected Threats">
+    maxWidth: '100%',
+    minWidth: '80%', /* Prevtns the box from collapsing */
+    width: 'auto',
+    height: 'auto',
+
+  }}>
+
+    <div className="card-body" 
+    
+    style={{
+
+      display: 'flex',          
+      alignItems: 'center',     
+      justifyContent: 'start',  
+      marginLeft: '10px',
+      gap: '10px' /* Space between text and nested box*/            
+
+    }}>
+
+      <h10>Detected Threats: <span> 0 </span> </h10>
+
+      {/* Nested Secure Box */}
+      <div
+
+        style = {{
+
+          /* Box CSS */
+          backgroundColor: '#FFFFFF',
+          border: '3px solid #18CE00',
+          borderRadius: '10px',
+          display: 'inline-block',
+          width: '175px',
+          marginLeft: '60px',
+
+          /* Text CSS */
+          color: '#18CE00',
+          fontSize: '26px',
+          fontFamily: 'Inter',
+          fontWeight: 400, /* Regular */
+          display: 'flex',             // Center vertically
+          justifyContent: 'center',    // Center horizontally 
+          alignItems: 'center',        // Center vertically
+
+        }}>
+        
+        Secure
+
       </div>
+
+      
     </div>
   </div>
 

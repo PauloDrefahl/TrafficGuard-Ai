@@ -1,4 +1,7 @@
-// App.js
+// "HOME" PAGE 
+// App.js is the starting point for the application. This is where buttons and cards are organized on screen 
+
+
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import './styles/styles.css'; // Import your custom CSS
@@ -10,36 +13,49 @@ import DevicesAtRisk from './components/BandwidthUsage';
 import ConsoleOutput from './components/console';
 import FetchDataButton from "./components/fetchData";
 import SystemData from './components/systemData';
+import CardHeader from './components/CardHeader';
 
 
 function App() {
+
   return (
     <div>
 
+
       <Navbar />
-      <div className="container mt-4">
+
+      <div className="container mt-1"> <h7>Home</h7> </div>
+      
+
+      <div>
 
         <div className="row">
-          <div className="col-md-4">
 
-            <h3 className="mb-4">🛡️ Network & Device Security</h3>
+          <div className="col-auto ms-4"> {/* Grid 1/3 of Screen; margin start at */}
+
+            <CardHeader HeaderText={"Network Security Status"} />
             <SecurityCard />
-            <DevicesAtRisk />
-            <h3 className='mt-4 mb-3'>🖳 System Console</h3>
-            <ConsoleOutput />
+                
+            <CardHeader HeaderText={"Router"} />
 
           </div>
 
-          <div className="col-md-8">
 
+          <div className="col-auto me-4"> {/* Grid 2/3 of Screen; margin end at */}
+
+            <CardHeader HeaderText={"Network Usage"} />
             <TrafficMonitoring />
             <DeviceList />
 
           </div>
 
+          {/* CPU/Memory Usage, Wireless Clients, Firewall Rules, etc. */}
           <SystemData />
+
+          
           
         </div>
+        
       </div>
 
     </div>
