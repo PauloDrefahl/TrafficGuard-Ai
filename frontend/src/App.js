@@ -14,6 +14,9 @@ import ConsoleOutput from './components/console';
 import FetchDataButton from "./components/fetchData";
 import SystemData from './components/systemData';
 import CardHeader from './components/CardHeader';
+import RouterDetails from './components/RouterDetails';
+import CPUMemory from './components/CPUMemory';
+import NetworkUsage from './components/NetworkUsage';
 
 
 function App() {
@@ -24,7 +27,7 @@ function App() {
 
       <Navbar />
 
-      <div className="container mt-1"> <h7>Home</h7> </div>
+      <div className="container mt-2"> <h7>Home</h7> </div>
       
 
       <div>
@@ -35,22 +38,32 @@ function App() {
 
             <CardHeader HeaderText={"Network Security Status"} />
             <SecurityCard />
-                
-            <CardHeader HeaderText={"Router"} />
+
+            <div className="mt-6"> {/* mt-6 located in styles.css */}
+              <CardHeader HeaderText={"Router Details"} />
+            </div>     
+            <RouterDetails />   
+
+            <div className="mt-6"> {/* mt-6 located in styles.css */}
+              <CardHeader HeaderText={"System Load"} />
+            </div>    
+            <CPUMemory />
 
           </div>
 
 
-          <div className="col-auto me-4"> {/* Grid 2/3 of Screen; margin end at */}
+          <div className="col-md-8 ms-4"> {/* Grid 2/3 of Screen; margin end at */}
 
             <CardHeader HeaderText={"Network Usage"} />
-            <TrafficMonitoring />
-            <DeviceList />
+            <NetworkUsage />
 
           </div>
 
+          
+          
+
           {/* CPU/Memory Usage, Wireless Clients, Firewall Rules, etc. */}
-          <SystemData />
+          {/* <SystemData /> */}
 
           
           

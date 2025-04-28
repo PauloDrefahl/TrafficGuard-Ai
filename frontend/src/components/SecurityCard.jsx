@@ -10,11 +10,11 @@ const SecurityCard = () => (
   style={{
 
     maxWidth: '100%',
-    minWidth: '80%', /* Prevtns the box from collapsing */
+    minWidth: '80%', /* Prevents the box from collapsing */
     width: 'auto',
     height: 'auto',
 
-  }}>
+  }}> {/* className = "card mb-2" */}
 
     <div className="card-body" 
     
@@ -26,7 +26,8 @@ const SecurityCard = () => (
       marginLeft: '10px',
       gap: '10px' /* Space between text and nested box*/            
 
-    }}>
+    }}> {/* className = "card-body" */}
+
 
       <h10>Detected Threats: <span> 0 </span> </h10>
 

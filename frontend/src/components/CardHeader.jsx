@@ -14,17 +14,16 @@ function CardHeader({ HeaderText }) {
           backgroundColor: '#3775F1',
           borderRadius: '10px',
           boxShadow: '0px 4px 4px rgb(0, 0, 0, .25)',
-          padding: '10px',          
+          padding: '10px 40px',          
           height: '54px',
           maxWidth: '80%',
-          margin: '18px', // External Margin
+          width: 'fit-content',
+          margin: '18px 0px 18px 0px', // top, right, bottom, left; External Margin
           
-         
-
           // Text CSS
           color: 'white',
           fontFamily: 'Inter',
-          fontSize: '30px',        
+          fontSize: '28px',        
           display: 'flex',             // Center vertically
           justifyContent: 'center',    // Center horizontally 
           alignItems: 'center',        // Center vertically

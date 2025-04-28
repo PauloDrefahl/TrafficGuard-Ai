@@ -14,6 +14,7 @@ function CollapsibleExample() {
 
       <Container>
 
+
         {/* Nav Title */}
         <Navbar.Brand href="#home"> <h9>FrED IoT Home System</h9></Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

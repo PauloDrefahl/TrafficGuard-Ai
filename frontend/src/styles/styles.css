@@ -32,8 +32,10 @@ body {
   
   /* Card styling for uniform appearance */
   .card {
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color:#FFFFFF;
+    border: #FFFFFF solid;
+    border-radius: 15px;
+    box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.05);
   }
   
   /* Button group styling */
@@ -60,16 +62,21 @@ body {
     height: auto;
   }
 
+  .mt-6 {
+
+    margin-top: 60px;
+
+  } /* Customer Bootstrap top margin */
+
   h7 {
 
     color: #3775F1;
-    font-size: 54px;
+    font-size: 55px;
     font-family: 'Inter';
     font-weight: 600; /* Semi-Bold */
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    margin-left: 50px; /* Shifts text 50px to right */
+    margin-left: 30px; /* Shifts text 50px to right */
    
-
   } /* Page Title Text*/
 
   h8 {
@@ -79,12 +86,12 @@ body {
     font-family: 'Inter';
     font-weight: 500; /* Medium */
 
-  } /* Card Header Text */
+  } /* not Card Header Text */
   
   h9 {
 
     color: Black;
-    font-size: 28px;
+    font-size: 26px;
     font-family: 'Inter';
     font-weight: 600; /* Semi-Bold */
 
@@ -93,9 +100,18 @@ body {
   h10 {
 
     color: Black;
-    font-size: 26px;
+    font-size: 24px;
     font-family: 'Inter';
     font-weight: 400; /* Regular */
+
+  }/*General Box Text*/
+
+  h11 {
+
+    color: Black;
+    font-size: 24px;
+    font-family: 'Inter';
+    font-weight: 500; /* Medium */
 
   }/*General Box Text*/
 
