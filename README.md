@@ -105,7 +105,7 @@ This guide covers setup and running instructions for both Windows and macOS envi
    ```
 2. **Create virtual environment**
    ```bash
-   python -m venv venv
+   py -3.12 -m venv venv
    ```
 3. **Activate the virtual environment**
    ```bash
@@ -137,7 +137,7 @@ python app.py
    ```
 2. **Create virtual environment**
    ```bash
-   python3 -m venv venv
+   py -3.12 -m venv venv
    ```
 3. **Activate the virtual environment**
    ```bash
