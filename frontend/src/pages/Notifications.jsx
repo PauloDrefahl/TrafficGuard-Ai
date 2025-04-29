@@ -1,5 +1,6 @@
 // Notifications PAGE
 import NotificationCards from '../components/NotificationCards';
+import ScrollBarBox from '../components/ScrollBarBox';
 
 function Notifications(){
 
@@ -42,7 +43,7 @@ function Notifications(){
 
                 </div>
                     
-                <div className="overflow-auto custom-scroll"
+                {/* <div className="overflow-auto custom-scroll"
                     style={{
 
                         backgroundColor: '#F9F8F8',
@@ -73,8 +74,24 @@ function Notifications(){
 
 
 
-                </div>
+                </div> */}
 
+                <ScrollBarBox>
+                    <div style={{ height: '1000px' }}>
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                        <NotificationCards />
+                    </div>
+                </ScrollBarBox>
 
                 </div> 
             </div>

@@ -25,6 +25,7 @@ const NotificationCards = () => {
                     
                     }}>
 
+                    {/* FILL WITH YOUR OWN DATA */}
                     <span style={{marginRight: '183px'}}> 8d37s0 </span>
                     <span style={{ marginRight: '76px'}}> 192.177.833.075 </span>
                     <span style={{ marginRight: '164px'}}> 4/28/25 </span>
