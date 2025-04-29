@@ -173,7 +173,12 @@ python3 app.py
    ```bash
    npm install
    ```
-3. **Start the React app**
+3. **Install packages**
+   ```bash
+   npm install styled-components
+   npm install react-router-dom
+   ```
+4. **Start the React app**
    ```bash
    npm start
    ```
