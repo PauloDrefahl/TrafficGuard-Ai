@@ -148,6 +148,76 @@ body {
 }/* Placeholder text */
 
 
+/******* CUSTOM DROPDOWN MENU CSS *******/
+
+.dropbtn {
+
+  /* Button */
+  background-color: #F9F9F9;
+  border: 1px solid #8E8E8E;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  height: 40px;
+
+  /* Text */
+  color: #8E8E8E;
+  font-family: 'Inter';
+  font-size: 24px;
+  font-weight: 300; /* Light */
+  text-align: center;
+  position: relative;
+
+}
+
+.arrow {
+
+  float: right;
+
+}
+
+.dropdown {
+
+  position: relative;
+  display: inline-block;
+
+}
+
+.dropdown-content {
+
+  position: absolute;
+  top: 100%; /* Pushes it directly below the button */
+  left: 0;
+  z-index: 1000;
+  padding: 8px;
+  background-color: #f9f9f9;
+  width: 200px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  margin-top: 4px;
+  border-radius: 0px 0px 5px 5px;
+
+  font-family: 'Inter';
+  font-size: 20px;
+  font-weight: 300; /* Light */
+
+}
+
+.dropdown-item {
+
+  padding: 12px 16px;
+  cursor: pointer;
+
+}
+
+.dropdown-item:hover {
+
+  background-color: #BECFEF;
+  border-radius: 5px;
+
+}
+
+
+
 /******* CUSTOM BOOTSRAP MARGIN-TOP CSS *******/
 
 .mt-6 {
