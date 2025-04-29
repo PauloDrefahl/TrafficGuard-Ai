@@ -349,4 +349,35 @@ h13 {
 .move-up {
   margin-top: -20px;
 }
+
+
+/******* TEXT SCALE & PREVIEW CSS *******/
+
+/* Slider styling */
+.slider-container {
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 1rem 0;
+  
+}
+
+.slider {
+
+  width: 200px;
+
+}
+
+.text-preview {
+
+  font-size: var(--text-size, 16px);
+  transition: font-size 0.3s ease;
+  
+}
+
+
+
+
 /**/
+
