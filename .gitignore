@@ -6,6 +6,9 @@
 # Python virtual environment
 venv/
 
+# PCAP captures
+backend/pcaps/
+
 # PnP
 .pnp
 .pnp.js

@@ -14,7 +14,8 @@ ROUTER_CONFIGS = {
             "device_list": "cat /tmp/dhcp.leases",
             "log_output": "logread",
             "bandwidth": "cat /proc/net/dev"
-        }
+        },
+        "pcap_interface": "br-lan"
     },
     "berylAX": {
         "router_ip": "192.168.8.1",
@@ -30,7 +31,8 @@ ROUTER_CONFIGS = {
             "device_list": "cat /tmp/dhcp.leases",
             "log_output": "logread",
             "bandwidth": "cat /proc/net/dev"
-        }
+        },
+        "pcap_interface": "br-lan"
     }
 }
 
@@ -39,3 +41,9 @@ DEFAULT_ROUTER = "mango"
 
 # SQLite database
 DATABASE = "db/router_data.db"
+
+# PCAP directory
+PCAP_DIR = "pcaps"
+
+# Router remote path for tcpdump
+PCAP_REMOTE_PATH = "/tmp/capture.pcap"

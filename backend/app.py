@@ -1,42 +1,81 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
-from getRouterData import get_router_data_via_ssh
-import sqlite3
+import os
+import io
 import time
-from config import ROUTER_CONFIGS, DEFAULT_ROUTER, DATABASE
+import zipfile
+import sqlite3
+
+from flask import (
+    Flask, jsonify, request,
+    send_from_directory, send_file
+)
+from flask_cors import CORS
+
+from getRouterData import (
+    get_router_data_via_ssh,
+    download_file_via_sftp,
+    ssh_exec_with_errors
+)
+from config import (
+    ROUTER_CONFIGS,
+    DEFAULT_ROUTER,
+    DATABASE,
+    PCAP_DIR,
+    PCAP_REMOTE_PATH
+)
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for React frontend
+CORS(app)
+
+# Base script directory
+BASE_DIR = os.path.dirname(__file__)
+# PCAP storage absolute path
+PCAP_PATH = os.path.join(BASE_DIR, PCAP_DIR)
+os.makedirs(PCAP_PATH, exist_ok=True)
 
 # Global state for selected router
 current_router = DEFAULT_ROUTER
+
 
 def get_active_config():
     """Return the config dict for the currently selected router."""
     return ROUTER_CONFIGS[current_router]
 
-# API Endpoint: /api/set_router
+
+# ----------------------
+# Core API Endpoints
+# ----------------------
+
 @app.route('/api/set_router', methods=['POST'])
 def set_router():
     data = request.get_json() or {}
     router = data.get('router')
     if router not in ROUTER_CONFIGS:
         return jsonify({'error': 'Invalid router selected'}), 400
+
     global current_router
     current_router = router
     return jsonify({'message': f'Router set to {router}'}), 200
 
-# API Endpoint: /api/data
+
 @app.route('/api/data', methods=['GET'])
 def get_data():
     cfg = get_active_config()
     try:
         time.sleep(1)
-        log = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['log_output'])
+        log = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['log_output']
+        )
         time.sleep(1)
-        devices = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['device_list'])
+        devices = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['device_list']
+        )
         time.sleep(1)
-        info = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['network_config'])
+        info = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['network_config']
+        )
         data = {
             'message': 'Data fetched from the router!',
             'status': 'Success',
@@ -47,28 +86,38 @@ def get_data():
         recreate_database()
         save_data_to_db(data)
     except Exception as e:
-        data = {'message': 'Failed to fetch router data.', 'status': 'Error', 'error': str(e)}
+        data = {
+            'message': 'Failed to fetch router data.',
+            'status': 'Error',
+            'error': str(e)
+        }
     return jsonify(data)
 
-# API Endpoint: /api/logs
+
 @app.route('/api/logs', methods=['GET'])
 def get_logs():
     cfg = get_active_config()
     try:
         time.sleep(1)
-        logs = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['log_output'])
+        logs = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['log_output']
+        )
         return jsonify({'status': 'Success', 'logs': logs})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-# API Endpoint: /api/devices
+
 @app.route('/api/devices', methods=['GET'])
 def get_devices():
     cfg = get_active_config()
     try:
-        dl = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['device_list'])
+        raw = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['device_list']
+        )
         devices = []
-        for line in dl.strip().split('\n'):
+        for line in raw.strip().split('\n'):
             parts = line.split()
             if len(parts) >= 4:
                 devices.append({
@@ -81,77 +130,101 @@ def get_devices():
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-# API Endpoint: /api/cpu_memory
+
 @app.route('/api/cpu_memory', methods=['GET'])
 def get_cpu_memory():
     cfg = get_active_config()
     try:
-        cpu_out = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['cpu_usage'])
+        cpu_out = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['cpu_usage']
+        )
         time.sleep(1)
-        mem_out = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['memory_usage'])
-        # Parse CPU
+        mem_out = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['memory_usage']
+        )
+
+        # Parse CPU usage
         cpu_data = {}
         for part in cpu_out.split():
             if '%' in part:
                 k, v = part.split('%')
                 cpu_data[k] = v
-        # Parse Memory
+
+        # Parse Memory usage
         lines = mem_out.strip().split('\n')
         mem_data = {}
         if len(lines) >= 2:
             headers = lines[0].split()
             values = lines[1].split()
             mem_data = dict(zip(headers, values))
+
         return jsonify({'status': 'Success', 'cpu': cpu_data, 'memory': mem_data})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-# API Endpoint: /api/wireless_clients
+
 @app.route('/api/wireless_clients', methods=['GET'])
 def get_wireless_clients():
     cfg = get_active_config()
     try:
-        wc = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['wireless_clients'])
+        wc = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['wireless_clients']
+        )
         return jsonify({'status': 'Success', 'wireless_clients': wc})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-# API Endpoint: /api/firewall_rules
+
 @app.route('/api/firewall_rules', methods=['GET'])
 def get_firewall_rules():
     cfg = get_active_config()
     try:
-        fr = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['firewall_rules'])
+        fr = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['firewall_rules']
+        )
         return jsonify({'status': 'Success', 'firewall_rules': fr})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-# API Endpoint: /api/uptime_load
+
 @app.route('/api/uptime_load', methods=['GET'])
 def get_uptime_load():
     cfg = get_active_config()
     try:
-        ul = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['uptime_load'])
+        ul = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['uptime_load']
+        )
         return jsonify({'status': 'Success', 'uptime_load': ul})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-# API Endpoint: /api/network_config
+
 @app.route('/api/network_config', methods=['GET'])
 def get_network_config():
     cfg = get_active_config()
     try:
-        nc = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['network_config'])
+        nc = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['network_config']
+        )
         return jsonify({'status': 'Success', 'network_config': nc})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-# API Endpoint: /api/bandwidth
+
 @app.route('/api/bandwidth', methods=['GET'])
 def get_bandwidth():
     cfg = get_active_config()
     try:
-        bw = get_router_data_via_ssh(cfg['router_ip'], cfg['username'], cfg['password'], cfg['commands']['bandwidth'])
+        bw = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            cfg['commands']['bandwidth']
+        )
         lines = bw.strip().split('\n')[2:]
         data = []
         for line in lines:
@@ -166,11 +239,115 @@ def get_bandwidth():
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-# Database Operations: drop & recreate table, then save data
+
+# ----------------------
+# PCAP MVP Endpoints
+# ----------------------
+
+@app.route('/api/pcap/capture', methods=['POST'])
+def pcap_capture():
+    """Run tcpdump on router and pull down .pcap file."""
+    data = request.get_json() or {}
+    duration = int(data.get('duration', 10))
+    cfg = get_active_config()
+
+    try:
+        # Run tcpdump remotely on configured interface
+        iface = cfg.get('pcap_interface', 'any')
+        cmd = f"timeout {duration}s tcpdump -i {iface} -s 0 -w {PCAP_REMOTE_PATH}"
+        code, err = ssh_exec_with_errors(
+            cfg['router_ip'], cfg['username'], cfg['password'], cmd
+        )
+
+        # Allow exit code 0 (normal) or 124 (timeout expired, capture complete)
+        if code not in (0, 124):
+            raise Exception(f"tcpdump failed (exit {code}): {err}")
+
+        # Download capture file
+        timestamp = time.strftime('%Y%m%d-%H%M%S')
+        fname = f"{current_router}-{timestamp}.pcap"
+        local_path = os.path.join(PCAP_PATH, fname)
+        download_file_via_sftp(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            PCAP_REMOTE_PATH, local_path
+        )
+
+        # Clean up remote file
+        cleanup_cmd = f"rm -f {PCAP_REMOTE_PATH}"
+        _, cleanup_err = ssh_exec_with_errors(
+        cfg['router_ip'], cfg['username'], cfg['password'], cleanup_cmd
+        )
+        if cleanup_err:
+            app.logger.warning(f"Failed to remove remote pcap: {cleanup_err}")
+
+        return jsonify({'status': 'Success', 'filename': fname}), 200
+
+    except Exception as e:
+        app.logger.error('PCAP capture failed', exc_info=e)
+        return jsonify({'status': 'Error', 'error': str(e)}), 500
+
+
+@app.route('/api/pcap/list', methods=['GET'])
+def pcap_list():
+    """Return JSON list of PCAP filenames."""
+    files = sorted(os.listdir(PCAP_PATH))
+    return jsonify({'files': files}), 200
+
+
+@app.route('/api/pcap/download/<filename>', methods=['GET'])
+def pcap_download_one(filename):
+    """Download a single PCAP file."""
+    return send_from_directory(PCAP_PATH, filename, as_attachment=True)
+
+
+@app.route('/api/pcap/download', methods=['GET'])
+def pcap_download_multiple():
+    """
+    Download multiple PCAPs as a ZIP.
+    Query param `files` = comma-separated filenames.
+    """
+    names = request.args.get('files', '')
+    files = [n for n in names.split(',') if n]
+    mem_zip = io.BytesIO()
+    with zipfile.ZipFile(mem_zip, 'w') as zf:
+        for fname in files:
+            path = os.path.join(PCAP_PATH, fname)
+            if os.path.isfile(path):
+                zf.write(path, arcname=fname)
+    mem_zip.seek(0)
+    return send_file(mem_zip, download_name='pcaps.zip', as_attachment=True)
+
+
+@app.route('/api/pcap/download/all', methods=['GET'])
+def pcap_download_all():
+    """Download all PCAPs as a single ZIP."""
+    files = os.listdir(PCAP_PATH)
+    mem_zip = io.BytesIO()
+    with zipfile.ZipFile(mem_zip, 'w') as zf:
+        for fname in files:
+            zf.write(os.path.join(PCAP_PATH, fname), arcname=fname)
+    mem_zip.seek(0)
+    return send_file(mem_zip, download_name='all_pcaps.zip', as_attachment=True)
+
+
+@app.route('/api/pcap', methods=['DELETE'])
+def pcap_delete_all():
+    """Delete all PCAP files."""
+    deleted = 0
+    for fname in os.listdir(PCAP_PATH):
+        os.remove(os.path.join(PCAP_PATH, fname))
+        deleted += 1
+    return jsonify({'status': 'Success', 'deleted': deleted}), 200
+
+
+# ----------------------
+# Database Helpers
+# ----------------------
+
 def recreate_database():
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    c.execute("DROP TABLE IF EXISTS router_info")
+    c.execute('DROP TABLE IF EXISTS router_info')
     c.execute("""
         CREATE TABLE router_info (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -181,13 +358,18 @@ def recreate_database():
     conn.commit()
     conn.close()
 
+
 def save_data_to_db(data):
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
     for k, v in data.items():
-        c.execute("INSERT INTO router_info (key, value) VALUES (?, ?)", (k, str(v)))
+        c.execute(
+            'INSERT INTO router_info (key, value) VALUES (?, ?)',
+            (k, str(v))
+        )
     conn.commit()
     conn.close()
+
 
 if __name__ == '__main__':
     app.run(debug=False)
