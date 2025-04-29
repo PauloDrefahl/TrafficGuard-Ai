@@ -3,7 +3,6 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Burger } from './Burger';
 import { Link } from 'react-router-dom';
 
 function NavBar() {
@@ -15,7 +14,6 @@ function NavBar() {
       <Container>
 
         {/* Nav Title */}
-        <Burger />
         <h9>FrED IoT Home System</h9>
              
         <Link to="/">Home</Link>
