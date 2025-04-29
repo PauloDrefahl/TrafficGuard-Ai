@@ -17,7 +17,7 @@ ROUTER_CONFIGS = {
         },
         "pcap_interface": "br-lan"
     },
-    "berylAX": {
+    "berylax": {
         "router_ip": "192.168.8.1",
         "username": "root",
         "password": "goodlife",

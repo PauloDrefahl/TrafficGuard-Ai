@@ -1,201 +1,61 @@
-// Change Router Card on the Settings PAGE
 import React, { useState } from 'react';
-import ScrollBoxRouter from './ScrollBoxRouter';
+import { useRouter } from '../context/RouterContext';
 
 const ChangeRouter = () => {
+  const brands = ['GL.iNet'];
+  const models = ['Mango', 'BerylAX'];
+  const { addRouter } = useRouter();
 
-    // Brand Dropdown Menu .js
-    const brands = ['GL.iNet'];
-    const [selectedBrand, setSelectedBrand] = useState('-- Select --');
-    const [isBrandOpen, setIsBrandOpen] = useState(false);
+  const [brand, setBrand] = useState(brands[0]);
+  const [model, setModel] = useState(models[0]);
+  const [ip, setIp] = useState('');
 
-    const handleBrandClick = (brand) => {
-        setSelectedBrand(brand);
-        setIsBrandOpen(false);
-    };
+  const handleAdd = () => {
+    if (!ip.trim()) return;
+    addRouter({
+      brand,
+      model: model.toLowerCase(),
+      ip,
+      username: '',
+      password: ''
+    });
+    setIp('');
+  };
 
-    // Model Dropdown Menu .js
-    const models = ['Mango', 'BerylAX'];
-    const [selectedModel, setSelectedModel] = useState('-- Select --');
-    const [isModelOpen, setIsModelOpen] = useState(false);
+  return (
+    <div className="card mb-3" style={{ maxWidth: '100%', width: '90%' }}>
+      <div
+        className="card-body"
+        style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column', gap: '10px' }}
+      >
+        <strong>Add Router</strong>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <label className="fw-bold">Router Brand</label>
+          <select className="form-select" value={brand} onChange={e => setBrand(e.target.value)}>
+            {brands.map((b, i) => <option key={i} value={b}>{b}</option>)}
+          </select>
 
-    const handleModelClick = (model) => {
-        setSelectedModel(model);
-        setIsModelOpen(false);
-    };
+          <label className="fw-bold">Router Model</label>
+          <select className="form-select" value={model} onChange={e => setModel(e.target.value)}>
+            {models.map((m, i) => <option key={i} value={m}>{m}</option>)}
+          </select>
 
+          <label className="fw-bold">IP Address</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="e.g. 192.168.8.1"
+            value={ip}
+            onChange={e => setIp(e.target.value)}
+          />
 
-    return(
-
-        <div className="card "
-            style={{
-
-                /* Box CSS */
-                maxWidth: '100%',
-                minWidth: '80%', /* Prevents the box from collapsing */
-                width: '90%',
-                height: 'auto',
-
-            }}>
-
-            <div className="card-body" 
-    
-                style = {{
-
-                    /* Text CSS */
-                    marginLeft: '10px',
-                    display: 'flex', /* This and flexDir and gap allow for a vertical stack */
-                    flexDirection: 'column',
-                    gap: '10px'
-
-                }}>
-
-                  {/* Select Router Section */}
-                <h11>Select Router</h11>
-                <div 
-                    style={{ 
-                        
-                        height: '200px', 
-                        backgroundColor: '#F0F0F0',
-                        borderRadius: '15px',
-                    
-                    }}>
-
-                    <ScrollBoxRouter height="100%" width="100%">
-                       
-                       <div>
-
-                       </div>
-                    
-                    </ScrollBoxRouter> {/* Scroll Router Menu */}
-
-                </div>
-
-
-
-                {/* Add Router Section */}
-                <h11>Add Router</h11>
-
-                {/* Router Brand Menu */}
-                <div 
-                    style={{
-                        display: 'flex', 
-                        flexDirection: 'row', 
-                        alignItems: 'center', 
-                        gap: '25px'
-                    }}>
-
-                    <h10 style={{ marginLeft: '25px'}}>Router Brand</h10>
-
-                    <div className="dropdown">
-
-                        <button className="dropbtn" onClick={() => setIsBrandOpen(!isBrandOpen)}>
-                            {selectedBrand} <span className="arrow">{isBrandOpen ? '▲' : '▼'}</span>
-                        </button>
-
-                        {isBrandOpen && (
-
-                            <div className="dropdown-content">
-
-                            {brands.map((brands, idx) => (
-
-                                <div
-
-                                key={idx}
-                                className="dropdown-item"
-                                onClick={() => handleBrandClick(brands)}
-                                >
-
-                                {brands}
-
-                                </div>
-                            ))}
-
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Router Model Menu */}
-                <div 
-                    style={{
-                        display: 'flex', 
-                        flexDirection: 'row', 
-                        alignItems: 'center', 
-                        gap: '22px',
-                        position: 'relative', /* KEY */
-                        overflow: 'visible' /* ensure dropdown can spill over */
-                    }}>
-
-                    <h10 style={{ marginLeft: '25px'}}>Router Model </h10>
-
-                    <div className="dropdown" style={{ position: 'relative' }}>
-
-                        <button className="dropbtn" onClick={() => setIsModelOpen(!isModelOpen)}>
-
-                            {selectedModel} <span className="arrow">{isModelOpen ? '▲' : '▼'}</span>
-
-                        </button>
-
-                        {isModelOpen && (
-
-                            <div className="dropdown-content">
-
-                            {models.map((model, idx) => (
-
-                                <div
-
-                                key={idx}
-                                className="dropdown-item"
-                                onClick={() => handleModelClick(model)}
-                                >
-
-                                {model}
-
-                                </div>
-                            ))}
-                            </div>
-                        )}
-                    </div>
-
-                </div>
-                
-                 {/* User IP Address Text Box */}
-                <div 
-                    style={{
-                        display: 'flex', 
-                        flexDirection: 'row', 
-                        alignItems: 'center', 
-                        gap: '50px'
-                    }}>
-                    
-                    <h10 style={{ marginLeft: '25px'}}>IP Address </h10>
-                    {/* User Ip Textbox */}
-                    <div className="text-box"
-
-                        style={{
-
-                            height: '50px',
-                            width: '45%',
-
-                        }}>
-
-                    <input type="text" className="custom-input" placeholder="e.g. 192.103.577.901"/>
-
-                    </div>
-
-                    <div className="button">Add</div>
-
-                </div>
-                
-
-            </div>
-
-            
+          <button className="btn btn-primary" onClick={handleAdd} style={{ alignSelf: 'flex-start' }}>
+            Add
+          </button>
         </div>
-
-    );
-
+      </div>
+    </div>
+  );
 };
 
 export default ChangeRouter;

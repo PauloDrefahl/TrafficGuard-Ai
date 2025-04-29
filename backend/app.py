@@ -48,14 +48,18 @@ def get_active_config():
 @app.route('/api/set_router', methods=['POST'])
 def set_router():
     data = request.get_json() or {}
-    router = data.get('router')
+    router = (data.get('router') or "").strip().lower()
     if router not in ROUTER_CONFIGS:
         return jsonify({'error': 'Invalid router selected'}), 400
+
+    # override connection params if provided
+    for key in ('router_ip', 'username', 'password'):
+        if data.get(key):
+            ROUTER_CONFIGS[router][key] = data[key]
 
     global current_router
     current_router = router
     return jsonify({'message': f'Router set to {router}'}), 200
-
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
