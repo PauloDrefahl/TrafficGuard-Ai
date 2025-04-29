@@ -334,6 +334,15 @@ h12{
 
 }
 
+h13 {
+
+  color: Black;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 300; /* Light */
+
+}/*General Box Text*/
+
 
 /******* CUSTOM NEGATIVE MARGIN TOP CSS *******/
 
