@@ -14,12 +14,13 @@ const ScrollBoxRouter = ({
     <div
 
       style={{
+
         position: 'relative',
         height,
         width,
         overflow: 'hidden', // Ensures scroll + blur is clipped 
-      }}
-    >
+
+      }}>
 
       {/* Scrollable content area */}
       <div className="custom-scroll-router"
@@ -30,8 +31,7 @@ const ScrollBoxRouter = ({
           overflowY: 'auto',
           padding: '0px',
 
-        }}
-      >
+        }}>
 
         {children}
 
@@ -52,8 +52,7 @@ const ScrollBoxRouter = ({
           borderRadius: '15px',
           zIndex: 1,
 
-        }}
-      />
+        }}/>
 
       {/* Bottom blur overlay */}
       <div
@@ -70,10 +69,10 @@ const ScrollBoxRouter = ({
           borderRadius: '15px',
           zIndex: 1,
 
-        }}
-      />
+        }}/>
 
     </div>
+    
   );
 };
 

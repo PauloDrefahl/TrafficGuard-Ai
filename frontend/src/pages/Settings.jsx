@@ -7,6 +7,7 @@ import CardHeader from '../components/CardHeader';
 import UserLogin from '../components/UserLogin';
 import ThemeCard from '../components/ThemeCard';
 import ChangeRouter from '../components/ChangeRouter';
+import AccessibilityCard from '../components/AccessibilityCard';
 
 function Settings(){
 
@@ -18,7 +19,7 @@ function Settings(){
           
           <div className='container px-5 move-up' style={{ paddingBottom: '200px' }}> 
           {/* adding padding stops the model menu from shifting the layout due to lack of render space */}
-          
+
             <div className="row">
     
               <div className="col-md-4"> {/* Grid 1/3; margin start at 1.5rem */}
@@ -45,7 +46,7 @@ function Settings(){
               <div className="col-md-3"> {/* Grid 1/3 of Screen; margin start at 1.5rem */}
     
                 <CardHeader HeaderText={"Accessibility"} />
-                
+                <AccessibilityCard/>
     
               </div>
               

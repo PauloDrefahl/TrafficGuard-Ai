@@ -7,6 +7,7 @@ const NotificationCards = () => {
         <div>
         
             <div className="card"
+
                     style={{
 
                         /* Box CSS */
@@ -32,10 +33,10 @@ const NotificationCards = () => {
                     <span style={{ marginRight: '176px'}}> 9:35AM </span>
                     <span> Suspicious Activity Detected </span>
 
-                </div>
+            </div>
                     
                  
-            </div>
+        </div>
 
     );
 

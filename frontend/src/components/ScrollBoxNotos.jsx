@@ -14,12 +14,14 @@ const ScrollBoxNotos = ({
     <div
 
       style={{
+
         position: 'relative',
         height,
         width,
         marginLeft: '60px',
         marginTop: '20px',
         overflow: 'hidden', // Ensures scroll + blur is clipped 
+
       }}
     >
 
@@ -32,8 +34,7 @@ const ScrollBoxNotos = ({
           overflowY: 'auto',
           padding: '20px',
 
-        }}
-      >
+        }}>
 
         {children}
 
@@ -53,8 +54,7 @@ const ScrollBoxNotos = ({
           pointerEvents: 'none',
           zIndex: 1,
 
-        }}
-      />
+        }}/>
 
       {/* Bottom blur overlay */}
       <div
@@ -70,10 +70,10 @@ const ScrollBoxNotos = ({
           pointerEvents: 'none',
           zIndex: 1,
 
-        }}
-      />
+        }}/>
 
     </div>
+    
   );
 };
 

@@ -79,10 +79,12 @@ const ChangeRouter = () => {
                 {/* Router Brand Menu */}
                 <div 
                     style={{
+
                         display: 'flex', 
                         flexDirection: 'row', 
                         alignItems: 'center', 
                         gap: '25px'
+
                     }}>
 
                     <h10 style={{ marginLeft: '25px'}}>Router Brand</h10>
@@ -113,18 +115,21 @@ const ChangeRouter = () => {
 
                             </div>
                         )}
+
                     </div>
                 </div>
 
                 {/* Router Model Menu */}
                 <div 
                     style={{
+
                         display: 'flex', 
                         flexDirection: 'row', 
                         alignItems: 'center', 
                         gap: '22px',
                         position: 'relative', /* KEY */
                         overflow: 'visible' /* ensure dropdown can spill over */
+
                     }}>
 
                     <h10 style={{ marginLeft: '25px'}}>Router Model </h10>
@@ -141,35 +146,41 @@ const ChangeRouter = () => {
 
                             <div className="dropdown-content">
 
-                            {models.map((model, idx) => (
+                                {models.map((model, idx) => (
 
-                                <div
+                                    <div
 
-                                key={idx}
-                                className="dropdown-item"
-                                onClick={() => handleModelClick(model)}
-                                >
+                                    key={idx}
+                                    className="dropdown-item"
+                                    onClick={() => handleModelClick(model)}
+                                    >
 
-                                {model}
+                                    {model}
 
-                                </div>
-                            ))}
+                                    </div>
+                                ))}
+
                             </div>
                         )}
+
                     </div>
 
                 </div>
                 
                  {/* User IP Address Text Box */}
                 <div 
+
                     style={{
+
                         display: 'flex', 
                         flexDirection: 'row', 
                         alignItems: 'center', 
                         gap: '50px'
+
                     }}>
                     
                     <h10 style={{ marginLeft: '25px'}}>IP Address </h10>
+                    
                     {/* User Ip Textbox */}
                     <div className="text-box"
 
