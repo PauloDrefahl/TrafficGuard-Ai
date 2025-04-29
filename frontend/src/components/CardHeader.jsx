@@ -1,4 +1,5 @@
 // Blue Title Headers found above each card
+// Could make this into normal css 
 
 function CardHeader({ HeaderText }) {
 

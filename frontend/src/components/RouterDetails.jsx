@@ -9,6 +9,7 @@ const RouterDetails = () => (
   
     style={{
 
+        /* Box CSS */
         maxWidth: '100%',
         minWidth: '80%', /* Prevents the box from collapsing */
         width: '100px',
@@ -20,6 +21,7 @@ const RouterDetails = () => (
     
         style = {{
 
+            /* Text CSS */
             marginLeft: '10px',
             display: 'flex', /* This and flexDir and gap allow for a vertical stack */
             flexDirection: 'column',

@@ -2,11 +2,10 @@
 
 import SecurityCard from '../components/SecurityCard';
 import CardHeader from '../components/CardHeader';
-import RouterDetails from '../components/RouterDetails';
-import CPUMemory from '../components/CPUMemory';
-import NetworkUsage from '../components/NetworkUsage';
+import CPUMemory from '../components/CPUMemoryCard';
 import BandwidthUsage from '../components/BandwidthUsage';
 import TrafficMonitoring from '../components/NetworkMonitoring';
+
 import SystemData from '../components/systemData';
 
 
