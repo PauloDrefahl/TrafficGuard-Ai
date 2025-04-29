@@ -1,4 +1,5 @@
-// FIND LOCATION
+// NOT IN USE
+// Lowe Half of Old homepage
 
 import React, { useState, useEffect } from 'react';
 

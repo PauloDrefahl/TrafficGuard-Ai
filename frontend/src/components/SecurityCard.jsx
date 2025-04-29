@@ -41,12 +41,12 @@ const SecurityCard = () => (
           border: '3px solid #18CE00',
           borderRadius: '10px',
           display: 'inline-block',
-          width: '175px',
+          width: '170px',
           marginLeft: '60px',
 
           /* Text CSS */
           color: '#18CE00',
-          fontSize: '26px',
+          fontSize: '24px',
           fontFamily: 'Inter',
           fontWeight: 400, /* Regular */
           display: 'flex',             // Center vertically
