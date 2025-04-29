@@ -87,6 +87,29 @@ body {
 }/* Scrollbar scroller on hover */
 
 
+
+.custom-scroll-router::-webkit-scrollbar {
+  width: 6px; 
+}  /* Actual Scrollbar */
+
+
+.custom-scroll-router::-webkit-scrollbar-track {
+  background: #F0F0F0;
+  border-radius: 6px;
+}/* Scrollbar track */
+
+
+.custom-scroll-router::-webkit-scrollbar-thumb {
+  background-color: #D9D9D9;
+  border-radius: 6px;
+}/* Scrollbar handle */
+
+
+.custom-scroll-router::-webkit-scrollbar-thumb:hover {
+  background-color: #BECFEF;
+}/* Scrollbar scroller on hover */
+
+
 /******* CUSTOM TEXTBOX CSS *******/
 
 .text-box {
@@ -168,7 +191,7 @@ body {
  
   border-radius: 30px;
   font-family: 'Inter';
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 500; /* Medium */
   height: 40px;
   width: fit-content;  
@@ -241,4 +264,10 @@ h12{
 
 }
 
+
+/******* CUSTOM NEGATIVE MARGIN TOP CSS *******/
+
+.move-up {
+  margin-top: -20px;
+}
 /**/
