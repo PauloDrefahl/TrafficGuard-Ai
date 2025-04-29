@@ -1,4 +1,4 @@
-// FIND LOCATION
+// Card that displays Lease time, MAC Address, IP, and Hostname
 
 import React, { useState, useEffect } from 'react';
 

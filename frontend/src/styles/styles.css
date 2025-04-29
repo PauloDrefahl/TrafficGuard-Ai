@@ -1,12 +1,23 @@
+/* General CSS */
+
+/* imports Inter Semi-Bold, Medium, Regular, and Light */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+
 /* General body styling */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif, 'Inter';
+    background-color: #F9F8F8;
   }
   
   /* Navbar styling */
   .navbar {
-    height: 60px;
+
+    height: 66px;
     line-height: 60px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 20px 30px rgba(0, 0, 0, 0.05); /* X Y Blur Spread Color(x,x,x, opacity)*/
+
   }
   
   /* Table spacing */
@@ -21,8 +32,10 @@ body {
   
   /* Card styling for uniform appearance */
   .card {
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color:#FFFFFF;
+    border: #FFFFFF solid;
+    border-radius: 15px;
+    box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.05);
   }
   
   /* Button group styling */
@@ -48,4 +61,213 @@ body {
     width: 100%;
     height: auto;
   }
+
+
+/******* SCROLL BAR & TRACK CSS *******/
+
+.custom-scroll::-webkit-scrollbar {
+  width: 6px; 
+}  /* Actual Scrollbar */
+
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #F9F8F8;
+  border-radius: 6px;
+}/* Scrollbar track */
+
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #D9D9D9;
+  border-radius: 6px;
+}/* Scrollbar handle */
+
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #BECFEF;
+}/* Scrollbar scroller on hover */
+
+
+
+.custom-scroll-router::-webkit-scrollbar {
+  width: 6px; 
+}  /* Actual Scrollbar */
+
+
+.custom-scroll-router::-webkit-scrollbar-track {
+  background: #F0F0F0;
+  border-radius: 6px;
+}/* Scrollbar track */
+
+
+.custom-scroll-router::-webkit-scrollbar-thumb {
+  background-color: #D9D9D9;
+  border-radius: 6px;
+}/* Scrollbar handle */
+
+
+.custom-scroll-router::-webkit-scrollbar-thumb:hover {
+  background-color: #BECFEF;
+}/* Scrollbar scroller on hover */
+
+
+/******* CUSTOM TEXTBOX CSS *******/
+
+.text-box {
+
+  display: flex;
+  align-items: center;       /* Vertical centering */
+  padding: 16px 20px;        /* Top bottom */
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  outline: 1px solid #8E8E8E;
+  outline-offset: -2px; /* Sets the border outline inside */
+
+}
+
+.custom-input {
+
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: 'Inter';
+  font-size: 24px;
+  font-weight: 300;
+  color: #333333; 
+  width: 100%;
+
+}/* User-typed text */
+
+
+.custom-input::placeholder {
+
+  color: #8E8E8E;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 300; /* Light */
   
+}/* Placeholder text */
+
+
+/******* CUSTOM BOOTSRAP MARGIN-TOP CSS *******/
+
+.mt-6 {
+
+  margin-top: 60px;
+
+} /* Customer Bootstrap top margin */
+
+
+/******* BUTTON CSS *******/
+
+.button {
+
+  display: flex;
+  align-items: center;       /* Vertical centering */
+  padding: 16px 20px;        /* Top bottom */
+
+  background-color: #D9D9D9;
+  border-radius: 30px;
+  font-family: 'Inter';
+  font-size: 22px;
+  font-weight: 400; /* Regular */
+  height: 40px;
+  width: fit-content;  
+  cursor: pointer; 
+
+}
+
+.button:hover {
+
+  background-color: #BECFEF; 
+
+}
+
+.theme-button {
+
+  display: flex;
+  align-items: center;       /* Vertical centering */
+  padding: 16px 20px;        /* Top bottom */
+
+ 
+  border-radius: 30px;
+  font-family: 'Inter';
+  font-size: 24px;
+  font-weight: 500; /* Medium */
+  height: 40px;
+  width: fit-content;  
+  cursor: pointer; 
+
+}
+
+.theme-button:hover {
+
+  background-color: #BECFEF; 
+
+}
+
+
+/******* CUSTOM FONT HEADERS CSS *******/
+
+h7 {
+
+  color: #3775F1;
+  font-size: 55px;
+  font-family: 'Inter';
+  font-weight: 600; /* Semi-Bold */
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-left: 30px; /* Shifts text 30px to right */
+   
+} /* Page Title Text*/
+
+h8 {
+
+  color: white;
+  font-size: 30px;
+  font-family: 'Inter';
+  font-weight: 500; /* Medium */
+
+} /* not Card Header Text */
+  
+h9 {
+
+  color: Black;
+  font-size: 26px;
+  font-family: 'Inter';
+  font-weight: 600; /* Semi-Bold */
+
+} /* Nav Bar Text*/
+
+h10 {
+
+  color: Black;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 400; /* Regular */
+
+}/*General Box Text*/
+
+h11 {
+
+  color: Black;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 500; /* Medium */
+
+}/*General Box Text*/
+
+h12{
+
+  color: Black;
+  font-size: 28px;   
+  font-family: 'Inter';   
+  font-weight: 500; /* Medium */  
+
+}
+
+
+/******* CUSTOM NEGATIVE MARGIN TOP CSS *******/
+
+.move-up {
+  margin-top: -20px;
+}
+/**/

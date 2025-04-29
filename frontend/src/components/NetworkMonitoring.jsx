@@ -1,12 +1,13 @@
-// "Network Trafficking" Card
+// "Network Monitoring" Card Graph
 
 import React, { useState } from 'react';
 import { Line, Bar } from 'react-chartjs-2';
 import 'chart.js/auto'; // Ensures Chart.js is automatically registered
+import SystemData from './systemData';
 
 
 // Network Graphs
-const TrafficMonitoring = () => {
+const NetworkMonitoring = () => {
 
   // Line Chart
   const lineChartData = {
@@ -16,8 +17,9 @@ const TrafficMonitoring = () => {
       {
         label: 'Network Traffic (MB)',
         data: [65, 59, 80, 81, 56, 55],
-        fill: false,
-        borderColor: 'rgba(75, 192, 192, 1)',
+        fill: true,
+        backgroundColor:'rgb(190, 207, 239, 0.5)',
+        borderColor: '#A4C4FF',
         tension: 0.1,
       },
     ],
@@ -31,8 +33,8 @@ const TrafficMonitoring = () => {
       {
         label: 'Network Usage (MB)',
         data: [120, 150, 180, 170, 200, 230],
-        backgroundColor: 'rgba(153, 102, 255, 0.5)',
-        borderColor: 'rgba(153, 102, 255, 1)',
+        backgroundColor:'rgb(190, 207, 239, 0.5)',
+        borderColor: '#A4C4FF',
         borderWidth: 1,
       },
     ],
@@ -54,9 +56,7 @@ const TrafficMonitoring = () => {
         <div className="d-flex gap-1 mb-3 border-bottom border-dark pb-3" role="group" aria-label="Traffic Monitoring Options">
          
          {/* Network Traffic Card Buttons */}
-          <h5 className="mt-2 me-3">📈 Network Trafficking: </h5>
           <button type="button" className="btn btn-outline-dark" onClick={() => showChart('networkTrafficChart')}>Network Traffic</button>
-          <button type="button" className="btn btn-outline-dark" onClick={() => showChart('suspiciousTrafficTable')}>Suspicious Traffic</button>
           <button type="button" className="btn btn-outline-dark" onClick={() => showChart('networkUsageChart')}>Network Usage</button>
         </div>
 
@@ -72,48 +72,18 @@ const TrafficMonitoring = () => {
           {visibleChart === 'networkUsageChart' && (
             <Bar data={barChartData} />
           )}
-
-          {/* "Suspicious Traffic" Button Link */}
-          {visibleChart === 'suspiciousTrafficTable' && (
-            <div id="suspiciousTrafficTable">
-              <p>Sample data for suspicious traffic (replace with your actual table):</p>
-              <table className="table table-striped">
-
-                {/* Table Header */}
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>IP Address</th>
-                    <th>Time Detected</th>
-                    <th>Reason</th>
-                  </tr>
-                </thead>
-
-                {/* Sample Data */}
-                <tbody>
-
-                  <tr>
-                    <td>1</td>
-                    <td>192.168.0.10</td>
-                    <td>2024-11-05 14:32</td>
-                    <td>Suspicious Data Spike</td>
-                  </tr>
-
-                  <tr>
-                    <td>2</td>
-                    <td>10.0.0.15</td>
-                    <td>2024-11-05 15:20</td>
-                    <td>Unusual Port Activity</td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-          )}
         </div>
       </div>
+
+      <div className='card'>
+          <SystemData/>
+      </div>
+
     </div>
+
+    
+
   );
 };
 
-export default TrafficMonitoring;
+export default NetworkMonitoring;

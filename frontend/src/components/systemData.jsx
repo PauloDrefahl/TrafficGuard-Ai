@@ -1,4 +1,5 @@
-// FIND LOCATION
+// WAS at the bottom of the homepage
+// fire ware, wireless clients, cpu/memory usage, upload time, network config
 
 import React, { useState, useEffect } from 'react';
 

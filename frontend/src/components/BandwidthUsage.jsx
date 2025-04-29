@@ -44,7 +44,6 @@ const BandwidthUsage = () => {
       <div className="card mt-4">
         <div className="card-body">
 
-          <h3>📡 Bandwidth Usage</h3>
           {loading ? (
               <p>Loading bandwidth data...</p>
           ) : (
