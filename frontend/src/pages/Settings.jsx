@@ -16,8 +16,9 @@ function Settings(){
     
           <div className="container mt-2"> <h7>Settings</h7> </div>
           
-          <div className='container px-5 move-up'>
-    
+          <div className='container px-5 move-up' style={{ paddingBottom: '200px' }}> 
+          {/* adding padding stops the model menu from shifting the layout due to lack of render space */}
+          
             <div className="row">
     
               <div className="col-md-4"> {/* Grid 1/3; margin start at 1.5rem */}
