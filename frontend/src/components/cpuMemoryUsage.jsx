@@ -1,5 +1,5 @@
-// NOT IN USE
-// Lowe Half of Old homepage
+// NOT IN USE - Old file but still has code needed to add to network status page
+// Lower Half of Old homepage
 
 import React, { useState, useEffect } from 'react';
 
