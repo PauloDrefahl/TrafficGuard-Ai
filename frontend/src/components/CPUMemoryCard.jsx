@@ -120,8 +120,8 @@ const CPUMemory = () => {
 
                 <tr key={index}>
 
-                  <td><h10>{key}</h10></td>
-                  <td><h10>{parseFloat(value).toFixed(2)}%</h10></td>
+                  <td><h13>{key}</h13></td>
+                  <td><h13>{parseFloat(value).toFixed(2)}%</h13></td>
 
                 </tr>
 
@@ -158,8 +158,8 @@ const CPUMemory = () => {
 
                 <tr key={index}>
 
-                  <td><h10>{key}</h10></td>
-                  <td><h10>{parseInt(value).toLocaleString()}</h10></td>
+                  <td><h13>{key}</h13></td>
+                  <td><h13>{parseInt(value).toLocaleString()}</h13></td>
 
                 </tr>
 
