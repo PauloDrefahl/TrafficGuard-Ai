@@ -5,7 +5,7 @@ import ScrollBoxRouter from './ScrollBoxRouter';
 const ChangeRouter = () => {
 
     // Brand Dropdown Menu .js
-    const brands = ['Mango', 'Beryl'];
+    const brands = ['GL.iNet'];
     const [selectedBrand, setSelectedBrand] = useState('-- Select --');
     const [isBrandOpen, setIsBrandOpen] = useState(false);
 
@@ -15,7 +15,7 @@ const ChangeRouter = () => {
     };
 
     // Model Dropdown Menu .js
-    const models = ['Mango', 'Beryl'];
+    const models = ['Mango', 'BerylAX'];
     const [selectedModel, setSelectedModel] = useState('-- Select --');
     const [isModelOpen, setIsModelOpen] = useState(false);
 
