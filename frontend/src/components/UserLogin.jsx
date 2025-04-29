@@ -1,3 +1,4 @@
+// src/components/UserLogin.jsx
 import React, { useState } from 'react';
 import { useRouter } from '../context/RouterContext';
 
@@ -22,7 +23,7 @@ const UserLogin = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          router: active.model,       // already lowercase
+          router: active.model,
           router_ip: active.ip,
           username,
           password
@@ -44,11 +45,14 @@ const UserLogin = () => {
 
   return (
     <div className="card mb-2" style={{ maxWidth: '100%', minWidth: '80%' }}>
-      <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div
+        className="card-body"
+        style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+      >
         <label className="fw-bold">Username</label>
         <input
           type="text"
-          className="form-control"
+          className="custom-input"
           placeholder="e.g. root"
           value={username}
           onChange={e => setUsername(e.target.value)}
@@ -57,23 +61,29 @@ const UserLogin = () => {
         <label className="fw-bold">Password</label>
         <input
           type="password"
-          className="form-control"
+          className="custom-input"
           placeholder="e.g. goodlife"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
 
-        <button
-          className="btn btn-success"
+        <div
+          className="button"
           onClick={handleLogin}
-          disabled={loading}
-          style={{ alignSelf: 'flex-start' }}
+          style={{
+            alignSelf: 'flex-start',
+            opacity: loading ? 0.6 : 1,
+            pointerEvents: loading ? 'none' : 'auto'
+          }}
         >
           {loading ? 'Logging in…' : 'Login'}
-        </button>
+        </div>
 
         {status && (
-          <div className={`alert mt-2 ${status.success ? 'alert-success' : 'alert-danger'}`}>
+          <div
+            className={`alert mt-2 ${status.success ? 'alert-success' : 'alert-danger'}`}
+            role="alert"
+          >
             {status.message}
           </div>
         )}

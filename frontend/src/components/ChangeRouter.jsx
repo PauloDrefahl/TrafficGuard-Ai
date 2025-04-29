@@ -31,27 +31,39 @@ const ChangeRouter = () => {
         <strong>Add Router</strong>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <label className="fw-bold">Router Brand</label>
-          <select className="form-select" value={brand} onChange={e => setBrand(e.target.value)}>
+          <select
+            className="custom-input"
+            value={brand}
+            onChange={e => setBrand(e.target.value)}
+          >
             {brands.map((b, i) => <option key={i} value={b}>{b}</option>)}
           </select>
 
           <label className="fw-bold">Router Model</label>
-          <select className="form-select" value={model} onChange={e => setModel(e.target.value)}>
+          <select
+            className="custom-input"
+            value={model}
+            onChange={e => setModel(e.target.value)}
+          >
             {models.map((m, i) => <option key={i} value={m}>{m}</option>)}
           </select>
 
           <label className="fw-bold">IP Address</label>
           <input
             type="text"
-            className="form-control"
+            className="custom-input"
             placeholder="e.g. 192.168.8.1"
             value={ip}
             onChange={e => setIp(e.target.value)}
           />
 
-          <button className="btn btn-primary" onClick={handleAdd} style={{ alignSelf: 'flex-start' }}>
+          <div
+            className="button"
+            style={{ alignSelf: 'flex-start' }}
+            onClick={handleAdd}
+          >
             Add
-          </button>
+          </div>
         </div>
       </div>
     </div>
