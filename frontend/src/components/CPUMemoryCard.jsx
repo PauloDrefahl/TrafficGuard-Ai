@@ -1,4 +1,5 @@
 // CPU & Memory Usage CARD
+// Card with CardHeader "System Load"
 
 import React, { useState, useEffect } from 'react';
 
