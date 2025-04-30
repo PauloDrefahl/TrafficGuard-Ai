@@ -22,6 +22,7 @@ body {
   }
 
   .navbar .nav-link {
+
     color: black;
     font-family: 'Inter';
     font-weight: 400;
@@ -38,10 +39,12 @@ body {
     padding: 4px 8px;  
     line-height: 1.2;
     height: auto;
+    
   }
   
   
   .navbar .nav-link:hover {
+
     color: #3775F1; 
     border: 1px solid #3775F1;
     

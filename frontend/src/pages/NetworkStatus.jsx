@@ -2,7 +2,7 @@
 
 import SecurityCard from '../components/SecurityCard';
 import CardHeader from '../components/CardHeader';
-import CPUMemory from '../components/CPUMemoryCard';
+import CPUMemoryCard from '../components/CPUMemoryCard';
 import BandwidthUsage from '../components/BandwidthUsage';
 import TrafficMonitoring from '../components/NetworkMonitoring';
 
@@ -34,7 +34,7 @@ function NetworkStatus() {
                 <div className="mt-6"> {/* mt-6 located in styles.css */}
                   <CardHeader HeaderText={"System Load"} />
                 </div>    
-                <CPUMemory />
+                <CPUMemoryCard />
     
               </div>
     
