@@ -9,7 +9,7 @@ function NavBar() {
       <Container>
 
         {/* Brand / Title */}
-        <Navbar.Brand as={Link} to="/">FrED IoT Home System</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/"><h9>FrED IoT Home System</h9></Navbar.Brand>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

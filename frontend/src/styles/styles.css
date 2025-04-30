@@ -22,19 +22,24 @@ body {
   }
 
   .navbar .nav-link {
-
     color: black;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 18px;
+  
+    display: flex;
+    align-items: center;       /* Vertical centering */
+    justify-content: center;   /* Horizontal centering */
+  
     margin-left: 10px;
-    /* transition: color 0.2s ease-in-out; */
     border-radius: 5px;
     border: 1px solid black;
   
     padding: 4px 8px;  
-    line-height: 1.2;  /* Keeps the text compact */
-    height: auto;      /* Ensures it's not stretching unnecessarily */
-    display: inline-block;  /* Makes borders fit the content */
-
+    line-height: 1.2;
+    height: auto;
   }
+  
   
   .navbar .nav-link:hover {
     color: #3775F1; 
