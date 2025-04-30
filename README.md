@@ -1,8 +1,9 @@
 # TrafficGuard-Ai
 
-**TrafficGuard-Ai** is an integrated network monitoring solution that combines a Python Flask backend with a React-based frontend. 
-In a closed test environment, the backend connects to a router via SSH to fetch system data, 
-while the frontend presents information about network traffic, device lists, CPU/memory usage, logs, and more.
+**TrafficGuard-Ai** is a full-stack network monitoring toolkit combining a Flask backend and a React frontend. 
+In a controlled test setup, the backend connects to one or more routers over SSH to collect live data—logs, bandwidth, device leases, CPU/memory stats, and packet captures - 
+while the frontend presents dashboards for real-time and historical insights.
+
 
 ---
 
@@ -24,13 +25,19 @@ while the frontend presents information about network traffic, device lists, CPU
 
 TrafficGuard-Ai consists of two integrated parts:
 
-- **Backend:** A Flask server that executes SSH commands on a router to retrieve data (logs, bandwidth, device list, CPU/memory usage, etc.) 
-and saves snapshots to an SQLite database.
-- **Frontend:** A React application created with Create React App that consumes the backend API and displays the data
-using Bootstrap for layout and Chart.js for visualizations.
+- **Backend (Flask + Paramiko):**  
+  - Executes SSH commands on selected router profiles to fetch system metrics.  
+  - Supports dynamic router selection and credential overrides via `/api/set_router`.  
+  - Supports persistent snapshots in SQLite and archives of full PCAP recordings.  
+  - Supports REST API for data endpoints (logs, devices, CPU/memory, bandwidth, firewall, uptime, network config) and PCAP management.
 
-This architecture was built for a closed test environment and currently uses hardcoded router credentials and a simple table-recreation strategy for caching data. 
-Future iterations will focus on enhanced data management, state handling, and security improvements.
+- **Frontend (React + Bootstrap + Chart.js):**  
+  - Consumes the backend API and displays metrics in cards, tables, and charts.  
+  - Provides a Settings page to add routers, enter credentials, and select the active device.  
+  - Provides a PCAP page for live packet previews and saved-file management (capture controls, multi-select, download, delete).  
+  - Provides custom hooks and context for state and fetch logic, with plans to modularize and enhance accessibility.
+
+This development build uses in-memory ZIP streams and hardcoded command sets. Future versions will employ secure credential management, data persistence, and eventually optional on-prem AI threat detection.
 
 ---
 
@@ -41,6 +48,7 @@ TrafficGuard-Ai/
 ├── backend/
 │   ├── db/
 │   │   └── router_data.db
+│   ├── pcaps
 │   ├── app.py
 │   ├── config.py
 │   ├── getRouterData.py
@@ -53,30 +61,51 @@ TrafficGuard-Ai/
 │   │   ├── logo512.png
 │   │   ├── manifest.json
 │   │   └── robots.txt
-│   └── src/
-│       ├── components/
-│       │   ├── BandwidthUsage.jsx
-│       │   ├── console.jsx
-│       │   ├── cpuMemoryUsage.jsx
-│       │   ├── DeviceList.jsx
-│       │   ├── fetchData.jsx
-│       │   ├── Navbar.jsx
-│       │   ├── SecurityCard.jsx
-│       │   ├── systemData.jsx
-│       │   └── TrafficMonitoring.jsx
-│       ├── styles/
-│       │   ├── App.css
-│       │   ├── index.css
-│       │   └── styles.css
-│       ├── App.js
-│       ├── App.test.js
-│       ├── fetchData.js
-│       ├── index.js
-│       ├── logo.svg
-│       ├── reportWebVitals.js
-│       └── setupTests.js
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── BandwidthUsage.jsx
+│   │   │   ├── CardHeader.jsx
+│   │   │   ├── ChangeRouter.jsx
+│   │   │   ├── ConsoleOutput.jsx
+│   │   │   ├── CpuMemoryUsage.jsx
+│   │   │   ├── DeviceList.jsx
+│   │   │   ├── fetchData.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── PacketSummary.jsx
+│   │   │   ├── PcapControls.jsx
+│   │   │   ├── PcapList.jsx
+│   │   │   ├── PcapListItem.jsx
+│   │   │   ├── ScrollBoxRouter.jsx
+│   │   │   ├── SecurityCard.jsx
+│   │   │   ├── SystemData.jsx
+│   │   │   ├── ThemeCard.jsx
+│   │   │   ├── TrafficMonitoring.jsx
+│   │   │   └── UserLogin.jsx
+│   │   ├── context/
+│   │   │   └── RouterContext.jsx
+│   │   ├── pages/
+│   │   │   ├── Home.jsx
+│   │   │   ├── NetworkStatus.jsx
+│   │   │   ├── Notifications.jsx
+│   │   │   ├── Pcap.jsx
+│   │   │   └── Settings.jsx
+│   │   ├── styles/
+│   │   │   ├── App.css
+│   │   │   ├── index.css
+│   │   │   └── styles.css
+│   │   ├── App.js
+│   │   ├── App.test.js
+│   │   ├── fetchData.js
+│   │   ├── index.js
+│   │   ├── Layout.jsx
+│   │   ├── logo.svg
+│   │   ├── reportWebVitals.js
+│   │   └── setupTests.js
+│   ├── package.json
+│   └── package-lock.json
 ├── .gitignore
 └── README.md
+
 ```
 
 ---
@@ -195,40 +224,83 @@ npm start
 ## Usage
 
 ### Backend API Endpoints
-- **/api/data** – Fetch router data (log, device list, network config) and save to SQLite.
-- **/api/logs** – Retrieve router log output.
-- **/api/devices** – Return device lease data (lease time, MAC, IP, hostname).
-- **/api/cpu_memory** – Return CPU usage and memory stats.
-- **/api/wireless_clients** – Return wireless client associations (placeholder).
-- **/api/firewall_rules** – Return firewall rules.
-- **/api/uptime_load** – Return system uptime and load averages.
-- **/api/network_config** – Return network configuration details.
-- **/api/bandwidth** – Return bandwidth statistics per interface (received and transmitted bytes).
+
+### Backend API Endpoints
+
+- **POST /api/set_router** – Select active router and optionally override its `router_ip`, `username`, and `password`.  
+- **GET /api/data** – Fetch router data (log, device list, network config) and save to SQLite.  
+- **GET /api/logs** – Retrieve router log output.  
+- **GET /api/devices** – Return device lease data (lease time, MAC, IP, hostname).  
+- **GET /api/cpu_memory** – Return CPU usage and memory stats.  
+- **GET /api/wireless_clients** – Return wireless client associations.  
+- **GET /api/firewall_rules** – Return firewall rules.  
+- **GET /api/uptime_load** – Return system uptime and load averages.  
+- **GET /api/network_config** – Return network configuration details.  
+- **GET /api/bandwidth** – Return bandwidth stats per interface (received/transmitted bytes).  
+
+
+- **POST /api/pcap/capture** – Start a timed capture, download the resulting `.pcap` and store it.  
+- **POST /api/pcap/stop** – Stop any in-progress `tcpdump` capture.  
+- **GET /api/pcap/live** – Return JSON array of the most recent 20 packets.  
+- **GET /api/pcap/list** – List saved PCAP filenames.  
+- **GET /api/pcap/download/<filename>** – Download a single PCAP file.  
+- **GET /api/pcap/download?files=<f1,f2>** – Download multiple PCAPs as a ZIP.  
+- **GET /api/pcap/download/all** – Download all PCAPs as a ZIP.  
+- **DELETE /api/pcap?files=<f1,f2>** – Delete selected PCAPs.  
+- **DELETE /api/pcap** – Delete all PCAPs.
 
 ### Frontend Components
-- **Navbar.jsx** – Render responsive navigation bar.
-- **SecurityCard.jsx** – Display static network security status.
-- **BandwidthUsage.jsx** – Fetch and display bandwidth usage in table.
-- **ConsoleOutput.jsx** – Fetch and display router logs in scrollable card.
-- **CpuMemoryUsage.jsx** – Fetch and display CPU and memory usage in tables.
-- **DeviceList.jsx** – Fetch and display list of devices in table.
-- **TrafficMonitoring.jsx** – Display sample network traffic charts and suspicious traffic table.
-- **SystemData.jsx** – Aggregate and display various system metrics (CPU/memory, wireless, firewall, uptime, network config).
-- **FetchData.jsx** – Fetch data from backend and POST to save endpoint (placeholder).
+
+- **Navbar.jsx** – Responsive navigation bar.  
+- **CardHeader.jsx** – Section header card.  
+- **SecurityCard.jsx** – Display static network security status.  
+- **BandwidthUsage.jsx** – Fetch and display bandwidth usage table.  
+- **ConsoleOutput.jsx** – Fetch and display router logs.  
+- **CpuMemoryUsage.jsx** – Fetch and display CPU and memory usage tables.  
+- **DeviceList.jsx** – Fetch and display list of devices table.  
+- **TrafficMonitoring.jsx** – Sample network traffic charts and table (PLACEHOLDER).  
+- **SystemData.jsx** – Aggregate and display various system metrics.  
+- **fetchData.jsx** – Fetch & save example (PLACEHOLDER).  
+- **ChangeRouter.jsx** – Form to add new router definitions.  
+- **ScrollBoxRouter.jsx** – Scrollable list for router selection/deletion.  
+- **UserLogin.jsx** – Username/password input to log in to selected router.  
+- **PacketSummary.jsx** – Live view of the most recent 20 packets.  
+- **PcapControls.jsx** – Capture duration selector and Start/Stop/Download/Delete controls.  
+- **PcapList.jsx** – Infinite-scroll list of saved PCAP files with multi-select.  
+- **PcapListItem.jsx** – Single PCAP row with checkbox and delete “×”.  
+- **ThemeCard.jsx** – Theme settings (PLACEHOLDER).  
+
+
+- **context/RouterContext.jsx** – React context for router profiles.  
+- **pages/Home.jsx** – Home page.  
+- **pages/NetworkStatus.jsx** – Network status dashboard.  
+- **pages/Notifications.jsx** – Notifications page.  
+- **pages/Settings.jsx** – Settings page with UserLogin, ChangeRouter, etc.  
+- **pages/Pcap.jsx** – PCAP live summary and file management.  
+
 
 ---
 
 ## Future Development
 
 - **Backend Enhancements:**
-  - Enhance data persistence by logging timestamped records instead of recreating database on each call.
-  - Move sensitive data to environment variables.
-  - Log using Python’s logging module.
+  - Implement persistent historical data in a timestamped table instead of recreating the database on each fetch.
+  - Implement externalization of all secrets (router credentials, IPs) into environment variables.
+  - Implement loading router profiles (commands, interfaces) from configuration files (JSON/YAML) for easy extension.
+  - Implement SSH connection pooling to reduce overhead on frequent requests.
+  - Implement input validation, authentication, and error-handling.
 
 - **Frontend Improvements:**
-  - Replace sample data in charting components with live backend data.
-  - Modularize large aggregator components into smaller, reusable parts.
-  - Consolidate recurring fetch logic into custom hooks.
+  - Implement real backend data for placeholder charts in `TrafficMonitoring` and `SystemData`.
+  - Refactor common fetch logic into custom hooks (e.g. `useRouterData`, `usePcap`).
+  - Improve accessibility (Accessibility section, Day/Night Mode) and add global error/toast handling.
+
+- **Infrastructure:**
+  - Dockerize backend and frontend; orchestrate with Docker Compose for consistent environments.
+  - Implement persist client-side state (router configs, past results) using Electron.
+
+- **Long-Term Objective:**
+  - Implement on-prem AI module (e.g. “DeepSeek”) for local threat/anomaly detection.
 
 ---
 
