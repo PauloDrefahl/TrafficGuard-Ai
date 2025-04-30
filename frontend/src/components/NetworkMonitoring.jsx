@@ -75,10 +75,6 @@ const NetworkMonitoring = () => {
         </div>
       </div>
 
-      <div className='card'>
-          <SystemData/>
-      </div>
-
     </div>
 
     
