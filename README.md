@@ -1,7 +1,8 @@
 # TrafficGuard-Ai
 
 **TrafficGuard-Ai** is a full-stack network monitoring toolkit combining a Flask backend and a React frontend. 
-In a controlled test setup, the backend connects to one or more routers over SSH to collect live data—logs, bandwidth, device leases, CPU/memory stats, and packet captures - 
+In a controlled test setup, the backend connects to one or more routers over SSH 
+to collect live data - logs, bandwidth, device leases, CPU/memory stats, and packet captures - 
 while the frontend presents dashboards for real-time and historical insights.
 
 
@@ -37,7 +38,8 @@ TrafficGuard-Ai consists of two integrated parts:
   - Provides a PCAP page for live packet previews and saved-file management (capture controls, multi-select, download, delete).  
   - Provides custom hooks and context for state and fetch logic, with plans to modularize and enhance accessibility.
 
-This development build uses in-memory ZIP streams and hardcoded command sets. Future versions will employ secure credential management, data persistence, and eventually optional on-prem AI threat detection.
+This development build uses in-memory ZIP streams and hardcoded command sets. 
+Future versions will employ secure credential management, data persistence, and eventually optional on-prem AI threat detection.
 
 ---
 
@@ -123,6 +125,18 @@ TrafficGuard-Ai/
 # Setup Guide
 
 This guide covers setup and running instructions for both Windows and macOS environments.
+
+## OpenWRT Router Prerequisites
+
+Before running TrafficGuard-Ai against an OpenWRT router, 
+SSH into the router and install the packet-capture tools if PCAP recording is desired:
+
+```bash
+ssh root@<router_ip>
+opkg update
+opkg install libpcap tcpdump
+exit
+````
 
 ## Backend
 
