@@ -17,7 +17,29 @@ body {
     line-height: 60px;
     background-color: #FFFFFF;
     box-shadow: 0 4px 20px 30px rgba(0, 0, 0, 0.05); /* X Y Blur Spread Color(x,x,x, opacity)*/
+    
 
+  }
+
+  .navbar .nav-link {
+
+    color: black;
+    margin-left: 10px;
+    /* transition: color 0.2s ease-in-out; */
+    border-radius: 5px;
+    border: 1px solid black;
+  
+    padding: 4px 8px;  
+    line-height: 1.2;  /* Keeps the text compact */
+    height: auto;      /* Ensures it's not stretching unnecessarily */
+    display: inline-block;  /* Makes borders fit the content */
+
+  }
+  
+  .navbar .nav-link:hover {
+    color: #3775F1; 
+    border: 1px solid #3775F1;
+    
   }
   
   /* Table spacing */
