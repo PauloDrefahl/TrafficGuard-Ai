@@ -13,8 +13,8 @@ while the frontend presents dashboards for real-time and historical insights.
 - [Project Overview](#project-overview)
 - [File Structure](#file-structure)
 - [Prerequisites](#prerequisites)
-- [Backend Setup & Running](#backend-setup--running)
-- [Frontend Setup & Running](#frontend-setup--running)
+- [Backend Setup & Running](#backend)
+- [Frontend Setup & Running](#frontend)
 - [Usage](#usage)
 - [Future Development](#future-development)
 - [Contributing](#contributing)
@@ -120,14 +120,6 @@ TrafficGuard-Ai/
   - For Python: `pip`
   - For Node.js: `npm`
 
----
-
-# Setup Guide
-
-This guide covers setup and running instructions for both Windows and macOS environments.
-
-## OpenWRT Router Prerequisites
-
 Before running TrafficGuard-Ai against an OpenWRT router, 
 SSH into the router and install the packet-capture tools if PCAP recording is desired:
 
@@ -137,6 +129,12 @@ opkg update
 opkg install libpcap tcpdump
 exit
 ````
+
+---
+
+# Setup Guide
+
+This guide covers setup and running instructions for both Windows and macOS environments.
 
 ## Backend
 
@@ -239,8 +237,6 @@ npm start
 
 ### Backend API Endpoints
 
-### Backend API Endpoints
-
 - **POST /api/set_router** – Select active router and optionally override its `router_ip`, `username`, and `password`.  
 - **GET /api/data** – Fetch router data (log, device list, network config) and save to SQLite.  
 - **GET /api/logs** – Retrieve router log output.  
@@ -291,7 +287,6 @@ npm start
 - **pages/Notifications.jsx** – Notifications page.  
 - **pages/Settings.jsx** – Settings page with UserLogin, ChangeRouter, etc.  
 - **pages/Pcap.jsx** – PCAP live summary and file management.  
-
 
 ---
 
