@@ -1,0 +1,413 @@
+/* General CSS */
+
+/* imports Inter Semi-Bold, Medium, Regular, and Light */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif, 'Inter';
+    background-color: #F9F8F8;
+  }
+  
+  /* Navbar styling */
+  .navbar {
+
+    height: 66px;
+    line-height: 60px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 20px 30px rgba(0, 0, 0, 0.05); /* X Y Blur Spread Color(x,x,x, opacity)*/
+    
+
+  }
+
+  .navbar .nav-link {
+
+    color: black;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 18px;
+  
+    display: flex;
+    align-items: center;       /* Vertical centering */
+    justify-content: center;   /* Horizontal centering */
+  
+    margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+  
+    padding: 4px 8px;  
+    line-height: 1.2;
+    height: auto;
+    
+  }
+  
+  
+  .navbar .nav-link:hover {
+
+    color: #3775F1; 
+    border: 1px solid #3775F1;
+    
+  }
+  
+  /* Table spacing */
+  .table {
+    margin-top: 20px;
+  }
+  
+  /* Badge styling for consistent look */
+  .badge {
+    font-size: 1em;
+  }
+  
+  /* Card styling for uniform appearance */
+  .card {
+    background-color:#FFFFFF;
+    border: #FFFFFF solid;
+    border-radius: 15px;
+    box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Button group styling */
+  .btn-group .btn {
+    margin-right: 5px;
+  }
+  
+  /* Table row hover effect */
+  .table-striped tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  /* Custom container padding */
+  .container {
+    padding: 20px;
+    max-width: 100%; /* Prevents content from overflowing beyond the parent */
+    overflow-x: auto; /* Allows horizontal scrolling if content overflows */
+  }
+  
+  /* Ensuring chart canvas responsiveness */
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+
+/******* SCROLL BAR & TRACK CSS *******/
+
+.custom-scroll::-webkit-scrollbar {
+  width: 6px; 
+}  /* Actual Scrollbar */
+
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #F9F8F8;
+  border-radius: 6px;
+}/* Scrollbar track */
+
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #D9D9D9;
+  border-radius: 6px;
+}/* Scrollbar handle */
+
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #BECFEF;
+}/* Scrollbar scroller on hover */
+
+
+
+.custom-scroll-router::-webkit-scrollbar {
+  width: 6px; 
+}  /* Actual Scrollbar */
+
+
+.custom-scroll-router::-webkit-scrollbar-track {
+  background: #F0F0F0;
+  border-radius: 6px;
+}/* Scrollbar track */
+
+
+.custom-scroll-router::-webkit-scrollbar-thumb {
+  background-color: #D9D9D9;
+  border-radius: 6px;
+}/* Scrollbar handle */
+
+
+.custom-scroll-router::-webkit-scrollbar-thumb:hover {
+  background-color: #BECFEF;
+}/* Scrollbar scroller on hover */
+
+
+/******* CUSTOM TEXTBOX CSS *******/
+
+.text-box {
+
+  display: flex;
+  align-items: center;       /* Vertical centering */
+  padding: 16px 20px;        /* Top bottom */
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  outline: 1px solid #8E8E8E;
+  outline-offset: -2px; /* Sets the border outline inside */
+
+}
+
+.custom-input {
+
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: 'Inter';
+  font-size: 24px;
+  font-weight: 300;
+  color: #333333; 
+  width: 100%;
+
+}/* User-typed text */
+
+
+.custom-input::placeholder {
+
+  color: #8E8E8E;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 300; /* Light */
+  
+}/* Placeholder text */
+
+
+/******* CUSTOM DROPDOWN MENU CSS *******/
+
+.dropbtn {
+
+  /* Button */
+  background-color: #F9F9F9;
+  border: 1px solid #8E8E8E;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  height: 40px;
+
+  /* Text */
+  color: #8E8E8E;
+  font-family: 'Inter';
+  font-size: 24px;
+  font-weight: 300; /* Light */
+  text-align: center;
+  position: relative;
+
+}
+
+.arrow {
+
+  float: right;
+
+}
+
+.dropdown {
+
+  position: relative;
+  display: inline-block;
+
+}
+
+.dropdown-content {
+
+  position: absolute;
+  top: 100%; /* Pushes it directly below the button */
+  left: 0;
+  z-index: 1000;
+  padding: 8px;
+  background-color: #f9f9f9;
+  width: 200px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  margin-top: 4px;
+  border-radius: 0px 0px 5px 5px;
+
+  font-family: 'Inter';
+  font-size: 20px;
+  font-weight: 300; /* Light */
+
+}
+
+.dropdown-item {
+
+  padding: 12px 16px;
+  cursor: pointer;
+
+}
+
+.dropdown-item:hover {
+
+  background-color: #BECFEF;
+  border-radius: 5px;
+
+}
+
+
+
+/******* CUSTOM BOOTSRAP MARGIN-TOP CSS *******/
+
+.mt-6 {
+
+  margin-top: 60px;
+
+} /* Customer Bootstrap top margin */
+
+
+/******* BUTTON CSS *******/
+
+.button {
+
+  display: flex;
+  align-items: center;       /* Vertical centering */
+  padding: 16px 20px;        /* Top bottom */
+
+  background-color: #D9D9D9;
+  border-radius: 30px;
+  font-family: 'Inter';
+  font-size: 22px;
+  font-weight: 400; /* Regular */
+  height: 40px;
+  width: fit-content;  
+  cursor: pointer; 
+
+}
+
+.button:hover {
+
+  background-color: #BECFEF; 
+
+}
+
+.theme-button {
+
+  display: flex;
+  align-items: center;       /* Vertical centering */
+  padding: 16px 20px;        /* Top bottom */
+
+ 
+  border-radius: 30px;
+  font-family: 'Inter';
+  font-size: 23px;
+  font-weight: 500; /* Medium */
+  height: 40px;
+  width: fit-content;  
+  cursor: pointer; 
+
+}
+
+.theme-button:hover {
+
+  background-color: #BECFEF; 
+
+}
+
+
+/******* CUSTOM FONT HEADERS CSS *******/
+
+h7 {
+
+  color: #3775F1;
+  font-size: 55px;
+  font-family: 'Inter';
+  font-weight: 600; /* Semi-Bold */
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-left: 30px; /* Shifts text 30px to right */
+   
+} /* Page Title Text*/
+
+h8 {
+
+  color: white;
+  font-size: 30px;
+  font-family: 'Inter';
+  font-weight: 500; /* Medium */
+
+} /* not Card Header Text */
+  
+h9 {
+
+  color: Black;
+  font-size: 26px;
+  font-family: 'Inter';
+  font-weight: 600; /* Semi-Bold */
+
+} /* Nav Bar Text*/
+
+h10 {
+
+  color: Black;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 400; /* Regular */
+
+}/*General Box Text*/
+
+h11 {
+
+  color: Black;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 500; /* Medium */
+
+}/*General Box Text*/
+
+h12{
+
+  color: Black;
+  font-size: 28px;   
+  font-family: 'Inter';   
+  font-weight: 500; /* Medium */  
+
+}
+
+h13 {
+
+  color: Black;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 300; /* Light */
+
+}/*General Box Text*/
+
+
+/******* CUSTOM NEGATIVE MARGIN TOP CSS *******/
+
+.move-up {
+  margin-top: -20px;
+}
+
+
+/******* TEXT SCALE & PREVIEW CSS *******/
+
+/* Slider styling */
+.slider-container {
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 1rem 0;
+  
+}
+
+.slider {
+
+  width: 200px;
+
+}
+
+.text-preview {
+
+  font-size: var(--text-size, 16px);
+  transition: font-size 0.3s ease;
+  
+}
+
+
+
+
+/**/
+
