@@ -5,7 +5,6 @@ In a controlled test setup, the backend connects to one or more routers over SSH
 to collect live data - logs, bandwidth, device leases, CPU/memory stats, and packet captures - 
 while the frontend presents dashboards for real-time and historical insights.
 
-
 ---
 
 ## Table of Contents
@@ -107,7 +106,6 @@ TrafficGuard-Ai/
 │   └── package-lock.json
 ├── .gitignore
 └── README.md
-
 ```
 
 ---
