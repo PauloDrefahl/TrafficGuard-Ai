@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import NetworkStatus from './pages/NetworkStatus';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
+import Pcap from './pages/Pcap';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/NetworkStatus" element={<NetworkStatus />} />
             <Route path="/Notifications" element={<Notifications />} />
             <Route path="/Settings" element={<Settings />} />
+            <Route path="/Pcap" element={<Pcap />} />
           </Route>
         </Routes>
       </HashRouter>

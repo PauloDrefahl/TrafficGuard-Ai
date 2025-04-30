@@ -1,6 +1,7 @@
 import os
 import io
 import time
+import re
 import zipfile
 import sqlite3
 
@@ -48,7 +49,7 @@ def get_active_config():
 @app.route('/api/set_router', methods=['POST'])
 def set_router():
     data = request.get_json() or {}
-    router = (data.get('router') or "").strip().lower()
+    router = (data.get('router') or '').strip().lower()
     if router not in ROUTER_CONFIGS:
         return jsonify({'error': 'Invalid router selected'}), 400
 
@@ -60,6 +61,7 @@ def set_router():
     global current_router
     current_router = router
     return jsonify({'message': f'Router set to {router}'}), 200
+
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
@@ -134,7 +136,6 @@ def get_devices():
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-
 @app.route('/api/cpu_memory', methods=['GET'])
 def get_cpu_memory():
     cfg = get_active_config()
@@ -149,14 +150,12 @@ def get_cpu_memory():
             cfg['commands']['memory_usage']
         )
 
-        # Parse CPU usage
         cpu_data = {}
         for part in cpu_out.split():
             if '%' in part:
                 k, v = part.split('%')
                 cpu_data[k] = v
 
-        # Parse Memory usage
         lines = mem_out.strip().split('\n')
         mem_data = {}
         if len(lines) >= 2:
@@ -167,7 +166,6 @@ def get_cpu_memory():
         return jsonify({'status': 'Success', 'cpu': cpu_data, 'memory': mem_data})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
-
 
 @app.route('/api/wireless_clients', methods=['GET'])
 def get_wireless_clients():
@@ -181,7 +179,6 @@ def get_wireless_clients():
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-
 @app.route('/api/firewall_rules', methods=['GET'])
 def get_firewall_rules():
     cfg = get_active_config()
@@ -193,7 +190,6 @@ def get_firewall_rules():
         return jsonify({'status': 'Success', 'firewall_rules': fr})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
-
 
 @app.route('/api/uptime_load', methods=['GET'])
 def get_uptime_load():
@@ -207,7 +203,6 @@ def get_uptime_load():
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-
 @app.route('/api/network_config', methods=['GET'])
 def get_network_config():
     cfg = get_active_config()
@@ -219,7 +214,6 @@ def get_network_config():
         return jsonify({'status': 'Success', 'network_config': nc})
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
-
 
 @app.route('/api/bandwidth', methods=['GET'])
 def get_bandwidth():
@@ -243,31 +237,24 @@ def get_bandwidth():
     except Exception as e:
         return jsonify({'status': 'Error', 'error': str(e)})
 
-
 # ----------------------
-# PCAP MVP Endpoints
+# PCAP Endpoints
 # ----------------------
 
 @app.route('/api/pcap/capture', methods=['POST'])
 def pcap_capture():
-    """Run tcpdump on router and pull down .pcap file."""
     data = request.get_json() or {}
     duration = int(data.get('duration', 10))
     cfg = get_active_config()
-
     try:
-        # Run tcpdump remotely on configured interface
         iface = cfg.get('pcap_interface', 'any')
         cmd = f"timeout {duration}s tcpdump -i {iface} -s 0 -w {PCAP_REMOTE_PATH}"
         code, err = ssh_exec_with_errors(
             cfg['router_ip'], cfg['username'], cfg['password'], cmd
         )
-
-        # Allow exit code 0 (normal) or 124 (timeout expired, capture complete)
         if code not in (0, 124):
             raise Exception(f"tcpdump failed (exit {code}): {err}")
 
-        # Download capture file
         timestamp = time.strftime('%Y%m%d-%H%M%S')
         fname = f"{current_router}-{timestamp}.pcap"
         local_path = os.path.join(PCAP_PATH, fname)
@@ -276,55 +263,93 @@ def pcap_capture():
             PCAP_REMOTE_PATH, local_path
         )
 
-        # Clean up remote file
         cleanup_cmd = f"rm -f {PCAP_REMOTE_PATH}"
         _, cleanup_err = ssh_exec_with_errors(
-        cfg['router_ip'], cfg['username'], cfg['password'], cleanup_cmd
+            cfg['router_ip'], cfg['username'], cfg['password'], cleanup_cmd
         )
         if cleanup_err:
             app.logger.warning(f"Failed to remove remote pcap: {cleanup_err}")
 
         return jsonify({'status': 'Success', 'filename': fname}), 200
-
     except Exception as e:
         app.logger.error('PCAP capture failed', exc_info=e)
         return jsonify({'status': 'Error', 'error': str(e)}), 500
 
+@app.route('/api/pcap/stop', methods=['POST'])
+def pcap_stop():
+    """Stop ongoing tcpdump capture on router."""
+    cfg = get_active_config()
+    try:
+        ssh_exec_with_errors(
+            cfg['router_ip'], cfg['username'], cfg['password'],
+            "killall tcpdump"
+        )
+        return jsonify({'status': 'Stopped'}), 200
+    except Exception as e:
+        return jsonify({'status': 'Error', 'error': str(e)}), 500
+
+@app.route('/api/pcap/live', methods=['GET'])
+def pcap_live():
+    """Return most recent 20 packets from live tcpdump -n -c 20."""
+    cfg = get_active_config()
+    try:
+        cmd = "tcpdump -l -n -c 20"
+        raw = get_router_data_via_ssh(
+            cfg['router_ip'], cfg['username'], cfg['password'], cmd
+        )
+        packets = []
+        for line in raw.strip().split('\n'):
+            parts = line.split()
+            if len(parts) < 5:
+                continue
+            timestamp = parts[0]
+            proto = parts[1]
+            # src > dst :
+            if '>' in parts:
+                idx = parts.index('>')
+                src = parts[idx-1]
+                dst = parts[idx+1].rstrip(':')
+            else:
+                src, dst = '', ''
+            length = ''
+            m = re.search(r'length (\d+)', line)
+            if m:
+                length = m.group(1)
+            packets.append({
+                'timestamp': timestamp,
+                'src': src,
+                'dst': dst,
+                'proto': proto,
+                'len': length
+            })
+        return jsonify({'packets': packets}), 200
+    except Exception as e:
+        return jsonify({'packets': [], 'error': str(e)}), 500
 
 @app.route('/api/pcap/list', methods=['GET'])
 def pcap_list():
-    """Return JSON list of PCAP filenames."""
     files = sorted(os.listdir(PCAP_PATH))
     return jsonify({'files': files}), 200
 
-
 @app.route('/api/pcap/download/<filename>', methods=['GET'])
 def pcap_download_one(filename):
-    """Download a single PCAP file."""
     return send_from_directory(PCAP_PATH, filename, as_attachment=True)
-
 
 @app.route('/api/pcap/download', methods=['GET'])
 def pcap_download_multiple():
-    """
-    Download multiple PCAPs as a ZIP.
-    Query param `files` = comma-separated filenames.
-    """
     names = request.args.get('files', '')
-    files = [n for n in names.split(',') if n]
+    sel = [n for n in names.split(',') if n]
     mem_zip = io.BytesIO()
     with zipfile.ZipFile(mem_zip, 'w') as zf:
-        for fname in files:
+        for fname in sel:
             path = os.path.join(PCAP_PATH, fname)
             if os.path.isfile(path):
                 zf.write(path, arcname=fname)
     mem_zip.seek(0)
     return send_file(mem_zip, download_name='pcaps.zip', as_attachment=True)
 
-
 @app.route('/api/pcap/download/all', methods=['GET'])
 def pcap_download_all():
-    """Download all PCAPs as a single ZIP."""
     files = os.listdir(PCAP_PATH)
     mem_zip = io.BytesIO()
     with zipfile.ZipFile(mem_zip, 'w') as zf:
@@ -333,16 +358,20 @@ def pcap_download_all():
     mem_zip.seek(0)
     return send_file(mem_zip, download_name='all_pcaps.zip', as_attachment=True)
 
-
 @app.route('/api/pcap', methods=['DELETE'])
-def pcap_delete_all():
-    """Delete all PCAP files."""
+def pcap_delete():
+    files_param = request.args.get('files')
     deleted = 0
-    for fname in os.listdir(PCAP_PATH):
-        os.remove(os.path.join(PCAP_PATH, fname))
-        deleted += 1
+    if files_param:
+        to_del = [n for n in files_param.split(',') if n]
+    else:
+        to_del = os.listdir(PCAP_PATH)
+    for fname in to_del:
+        path = os.path.join(PCAP_PATH, fname)
+        if os.path.isfile(path):
+            os.remove(path)
+            deleted += 1
     return jsonify({'status': 'Success', 'deleted': deleted}), 200
-
 
 # ----------------------
 # Database Helpers

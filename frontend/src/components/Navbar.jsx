@@ -7,9 +7,10 @@ function NavBar() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
       <Container>
-
         {/* Brand / Title */}
-        <Navbar.Brand as={Link} to="/"><h9>FrED IoT Home System</h9></Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          <strong>FrED IoT Home System</strong>
+        </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -19,6 +20,7 @@ function NavBar() {
             <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/NetworkStatus">Network Status</Nav.Link>
             <Nav.Link as={Link} to="/Notifications">Notifications</Nav.Link>
+            <Nav.Link as={Link} to="/Pcap">PCAP</Nav.Link>
             <Nav.Link as={Link} to="/Settings">Settings</Nav.Link>
           </Nav>
 
@@ -26,7 +28,6 @@ function NavBar() {
           <Nav>
             <Nav.Link href="#account">Exit ↪</Nav.Link>
           </Nav>
-
         </Navbar.Collapse>
       </Container>
     </Navbar>
