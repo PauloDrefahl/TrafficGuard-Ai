@@ -10,6 +10,7 @@ import DevicesAtRisk from './components/BandwidthUsage';
 import ConsoleOutput from './components/console';
 import FetchDataButton from "./components/fetchData";
 import SystemData from './components/systemData';
+import ChatBot from './components/bot';
 
 
 function App() {
@@ -20,10 +21,7 @@ function App() {
         <div className="row">
           <div className="col-md-4">
             <h3 className="mb-4">🛡️ Network & Device Security</h3>
-            <SecurityCard />
-            <DevicesAtRisk />
-            <h3 className='mt-4 mb-3'>🖳 System Console</h3>
-            <ConsoleOutput />
+            <SecurityCard /> <ChatBot />
           </div>
           <div className="col-md-8">
             <TrafficMonitoring />

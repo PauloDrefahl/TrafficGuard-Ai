@@ -21,9 +21,9 @@ commands = {
     "network_config": "ifconfig",
     "device_list": "cat /tmp/dhcp.leases",
     "log_output": "logread",
-    "bandwidth": "cat /proc/net/dev"
+    "bandwidth": "cat /proc/net/dev",
+    "CaptureCap" : "tcpdump -i wlan0 -w /tmp/capture.pcap",
 }
-
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
