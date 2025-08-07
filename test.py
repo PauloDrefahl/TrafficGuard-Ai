@@ -4,7 +4,7 @@ import sys
 
 # === Configuration ===
 REPO_PATH = "/Users/paulodrefahl/Desktop/Projects/trafficguard-AI"  # local repo path
-COMMIT_MESSAGE = "trafficguard 1.8v"
+COMMIT_MESSAGE = "trafficguard 1.9v"
 COMMIT_DATE = "2025-08-07T08:00:00"  # YYYY-MM-DDTHH:MM:SS
 
 # === Helpers ===
